@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">G4 Media Player</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">G4 Media Player</string>
+    <string name="nav_header_subtitle">Group 4, Mobile Programing</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_title">Search songs</string>
+    <string name="search_hint">Find all songs in this device</string>
+    <string name="unknown_artist">Unknown artist</string>
+    <string name="unknown_song_name">Unknown name</string>
+    <string name="btn_more_desc">More</string>
 </resources>
