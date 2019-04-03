@@ -27,7 +27,7 @@ import vn.edu.hcmute.mp.g4mediaplayer.fragment.SettingsFragment;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ActionBar actionBar;
+    ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +35,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setTitle("Music Library");
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.layout_container, new MusicLibraryFragment())
-                .commit();
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -54,8 +46,17 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        actionBar = getSupportActionBar();
+        assert actionBar != null;
+
+        actionBar.setTitle("Music Library");
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.layout_container, new MusicLibraryFragment())
+                .commit();
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_music_library);
     }
 
     @Override
@@ -93,30 +94,34 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_listen_now:
+                actionBar.setTitle("Listen now");
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_container, new ListenNowFragment())
                         .commit();
                 break;
             case R.id.nav_recents:
+                actionBar.setTitle("Recents");
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_container, new RecentsFragment())
                         .commit();
                 break;
             case R.id.nav_music_library:
+                actionBar.setTitle("Music Library");
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_container, new MusicLibraryFragment())
                         .commit();
                 break;
             case R.id.nav_settings:
+                actionBar.setTitle("Settings");
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_container, new SettingsFragment())
                         .commit();
                 break;
             case R.id.nav_help_feedback:
+                actionBar.setTitle("Help & Feedback");
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_container, new HelpAndFeedbackFragment())
                         .commit();

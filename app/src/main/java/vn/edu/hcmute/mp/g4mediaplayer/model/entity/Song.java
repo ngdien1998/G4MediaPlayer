@@ -16,6 +16,7 @@ public class Song {
     private String bitrate;
     private String genre;
     private Bitmap image;
+    private String filePath;
 
     public Song() {
     }
@@ -90,5 +91,13 @@ public class Song {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

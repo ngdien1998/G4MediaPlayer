@@ -19,9 +19,14 @@ public class SongManager {
 
     private static Song from(String source) {
         retriever.setDataSource(source);
+
         Song song = new Song();
-        String fileName = new File(source).getName();
+
+        File file = new File(source);
+        String fileName = file.getName();
+
         song.setName(fileName.replace(".mp3", ""));
+        song.setFilePath(file.getPath());
 
         try {
             byte[] embeddedPicture = retriever.getEmbeddedPicture();
