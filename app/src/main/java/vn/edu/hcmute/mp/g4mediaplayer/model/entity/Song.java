@@ -1,48 +1,32 @@
 package vn.edu.hcmute.mp.g4mediaplayer.model.entity;
 
-import android.graphics.Bitmap;
-
 /**
  * Refer the folowwing page showing how to extract song metedata:
  * http://mrbool.com/how-to-extract-meta-data-from-media-file-in-android/28130
  */
 public class Song {
+    private String id;
     private String name;
-    private String album;
-    private String albumArtist;
-    private String artist;
     private String author;
     private String composer;
     private String bitrate;
-    private String genre;
-    private Bitmap image;
+    private byte[] image;
     private String filePath;
 
-    public Song() {
+    public String getId() {
+        return id;
     }
 
-    public String getAlbum() {
-        return album;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setAlbum(String album) {
-        this.album = album;
+    public String getName() {
+        return name;
     }
 
-    public String getAlbumArtist() {
-        return albumArtist;
-    }
-
-    public void setAlbumArtist(String albumArtist) {
-        this.albumArtist = albumArtist;
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAuthor() {
@@ -69,28 +53,12 @@ public class Song {
         this.bitrate = bitrate;
     }
 
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public Bitmap getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(Bitmap image) {
+    public void setImage(byte[] image) {
         this.image = image;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getFilePath() {

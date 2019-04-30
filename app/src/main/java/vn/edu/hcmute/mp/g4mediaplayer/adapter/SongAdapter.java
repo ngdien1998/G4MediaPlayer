@@ -2,6 +2,7 @@ package vn.edu.hcmute.mp.g4mediaplayer.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -14,10 +15,12 @@ import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import vn.edu.hcmute.mp.g4mediaplayer.R;
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.Song;
+import vn.edu.hcmute.mp.g4mediaplayer.model.service.ArtistService;
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder> {
 
@@ -25,10 +28,12 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     private ArrayList<Song> songs;
     private OnItemClickListener onItemClick;
     private OnMoreItemClickListener onMoreItemClick;
+    private ArtistService artistService;
 
-    public SongAdapter(Context context, ArrayList<Song> songs) {
+    public SongAdapter(Context context, ArrayList<Song> songs) throws IOException {
         this.context = context;
         this.songs = songs;
+        artistService = new ArtistService(context);
     }
 
     public void setOnItemClick(OnItemClickListener onItemClick) {
@@ -50,8 +55,9 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     public void onBindViewHolder(@NonNull SongViewHolder songViewHolder, int position) {
         Song song = songs.get(position);
 
-        Bitmap image = song.getImage();
-        if (image != null) {
+        byte[] songImg = song.getImage();
+        if (songImg != null) {
+            Bitmap image = BitmapFactory.decodeByteArray(songImg, 0, songImg.length);
             songViewHolder.imgSong.setImageBitmap(image);
         }
 
@@ -60,7 +66,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
             songViewHolder.txtName.setText(songName);
         }
 
-        String artist = song.getArtist();
+        String artist = artistService.getSongArtist(song.getId());
         if (!artist.isEmpty()) {
             songViewHolder.txtArtist.setText(artist);
         }
