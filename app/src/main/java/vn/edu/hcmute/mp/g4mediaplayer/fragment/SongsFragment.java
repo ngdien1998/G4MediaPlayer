@@ -1,7 +1,6 @@
 package vn.edu.hcmute.mp.g4mediaplayer.fragment;
 
-import android.media.MediaPlayer;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -15,8 +14,10 @@ import android.view.ViewGroup;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import vn.edu.hcmute.mp.g4mediaplayer.PlayCenterActivity;
 import vn.edu.hcmute.mp.g4mediaplayer.R;
 import vn.edu.hcmute.mp.g4mediaplayer.adapter.SongAdapter;
+import vn.edu.hcmute.mp.g4mediaplayer.common.Consts;
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.Song;
 import vn.edu.hcmute.mp.g4mediaplayer.model.service.SongService;
 
@@ -48,14 +49,18 @@ public class SongsFragment extends Fragment {
     }
 
     private void adapterSong_itemClick(View view, Song song, int position) {
-        MediaPlayer player = MediaPlayer.create(getContext(), Uri.parse(song.getFilePath()));
-        player.start();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Consts.SONG_EXTRA, song);
+
+        Intent playIntent = new Intent(getActivity(), PlayCenterActivity.class);
+        playIntent.putExtra(Consts.SONG_BUNDLE_EXTRA, bundle);
+        startActivity(playIntent);
     }
 
     private void adapterSong_itemMoreClick(View view, Song song, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_play:
-
+                adapterSong_itemClick(view, song, 0);
                 break;
             case R.id.action_playlist:
 

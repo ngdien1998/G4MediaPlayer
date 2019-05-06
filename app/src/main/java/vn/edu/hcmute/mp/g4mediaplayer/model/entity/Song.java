@@ -1,10 +1,12 @@
 package vn.edu.hcmute.mp.g4mediaplayer.model.entity;
 
+import java.io.Serializable;
+
 /**
  * Refer the folowwing page showing how to extract song metedata:
  * http://mrbool.com/how-to-extract-meta-data-from-media-file-in-android/28130
  */
-public class Song {
+public class Song implements Serializable {
     private String id;
     private String name;
     private String author;
