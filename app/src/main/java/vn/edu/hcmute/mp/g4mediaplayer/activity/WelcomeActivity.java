@@ -1,4 +1,4 @@
-package vn.edu.hcmute.mp.g4mediaplayer;
+package vn.edu.hcmute.mp.g4mediaplayer.activity;
 
 import android.Manifest;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import vn.edu.hcmute.mp.g4mediaplayer.R;
 import vn.edu.hcmute.mp.g4mediaplayer.model.service.ScanSongService;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -33,7 +34,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void loadResource() {
-        if (/*ref.getBoolean(FIRST_RUN, true)*/true) {
+        if (ref.getBoolean(FIRST_RUN, true)) {
             try {
                 ScanSongService loadService = new ScanSongService(this);
                 loadService.scanAndSave();

@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import vn.edu.hcmute.mp.g4mediaplayer.PlayCenterActivity;
 import vn.edu.hcmute.mp.g4mediaplayer.R;
+import vn.edu.hcmute.mp.g4mediaplayer.activity.PlayCenterActivity;
 import vn.edu.hcmute.mp.g4mediaplayer.adapter.SongAdapter;
 import vn.edu.hcmute.mp.g4mediaplayer.common.Consts;
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.Song;

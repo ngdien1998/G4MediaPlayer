@@ -1,9 +1,11 @@
-package vn.edu.hcmute.mp.g4mediaplayer;
+package vn.edu.hcmute.mp.g4mediaplayer.activity;
 
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import vn.edu.hcmute.mp.g4mediaplayer.R;
 
 public class SearchResultsActivity extends AppCompatActivity {
 

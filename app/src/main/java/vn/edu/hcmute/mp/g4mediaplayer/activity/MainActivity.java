@@ -1,4 +1,4 @@
-package vn.edu.hcmute.mp.g4mediaplayer;
+package vn.edu.hcmute.mp.g4mediaplayer.activity;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -16,9 +16,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.SearchView;
 
+import vn.edu.hcmute.mp.g4mediaplayer.R;
 import vn.edu.hcmute.mp.g4mediaplayer.fragment.HelpAndFeedbackFragment;
-import vn.edu.hcmute.mp.g4mediaplayer.fragment.ListenNowFragment;
 import vn.edu.hcmute.mp.g4mediaplayer.fragment.MusicLibraryFragment;
+import vn.edu.hcmute.mp.g4mediaplayer.fragment.OnlineLibraryFragment;
 import vn.edu.hcmute.mp.g4mediaplayer.fragment.RecentsFragment;
 import vn.edu.hcmute.mp.g4mediaplayer.fragment.SettingsFragment;
 
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_listen_now:
                 actionBar.setTitle("Listen now");
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_container, new ListenNowFragment())
+                        .replace(R.id.layout_container, new OnlineLibraryFragment())
                         .commit();
                 break;
             case R.id.nav_recents:

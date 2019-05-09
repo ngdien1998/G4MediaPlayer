@@ -46,7 +46,6 @@ public class SongService extends SqliteHelper implements ServiceRepository<Song>
     @Override
     @Deprecated
     public void add(Song song) {
-
     }
 
     @Override
@@ -55,7 +54,6 @@ public class SongService extends SqliteHelper implements ServiceRepository<Song>
     }
 
     public void delete(String idSong, boolean alsoDeleteOnDevice) {
-
     }
 
     @Override
