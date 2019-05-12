@@ -63,7 +63,7 @@ public class SongsFragment extends Fragment {
                 adapterSong_itemClick(view, song, 0);
                 break;
             case R.id.action_playlist:
-
+               // showPopup();
                 break;
             case R.id.action_queue:
 
