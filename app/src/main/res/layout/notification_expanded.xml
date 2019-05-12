@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    android:padding="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_marginRight="@dimen/spacing_large"
+            android:layout_width="@dimen/spacing_xmlarge"
+            android:layout_height="@dimen/spacing_xmlarge">
+
+            <ImageView
+                android:id="@+id/img_song_small"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/photo_female_4" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_song_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Day Of The Dispair"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="@color/grey_90" />
+
+            <TextView
+                android:id="@+id/txt_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="The Beat"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/grey_40" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:layout_weight="1"
+            android:id="@+id/btn_repeat"
+            android:layout_width="?android:actionBarSize"
+            android:layout_height="?android:actionBarSize"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:tint="@color/grey_90"
+            android:src="@drawable/ic_repeat_normal" />
+
+        <ImageButton
+            android:id="@+id/btn_prev"
+            android:layout_width="?android:actionBarSize"
+            android:layout_height="?android:actionBarSize"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:tint="@color/grey_90"
+            android:src="@drawable/ic_skip_previous" />
+
+        <ImageButton
+            android:id="@+id/btn_play"
+            android:layout_width="?android:actionBarSize"
+            android:layout_height="?android:actionBarSize"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:tint="@color/red_600"
+            android:src="@drawable/ic_pause" />
+
+        <ImageButton
+            android:id="@+id/btn_next"
+            android:layout_width="?android:actionBarSize"
+            android:layout_height="?android:actionBarSize"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:tint="@color/grey_90"
+            android:src="@drawable/ic_skip_next" />
+
+        <ImageButton
+            android:layout_weight="1"
+            android:id="@+id/btn_shuffle"
+            android:layout_width="?android:actionBarSize"
+            android:layout_height="?android:actionBarSize"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_shuffle_normal" />
+
+    </LinearLayout>
+
+</LinearLayout>

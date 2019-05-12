@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    android:padding="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_marginRight="@dimen/spacing_large"
+            android:layout_width="@dimen/spacing_xmlarge"
+            android:layout_height="@dimen/spacing_xmlarge">
+
+            <ImageView
+                android:id="@+id/img_song_small"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/photo_female_4" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_song_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Day Of The Dispair"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="@color/grey_90" />
+
+            <TextView
+                android:id="@+id/txt_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="The Beat"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/grey_40" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
