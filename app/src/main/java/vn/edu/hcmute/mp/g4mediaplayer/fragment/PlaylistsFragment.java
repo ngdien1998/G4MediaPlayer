@@ -9,9 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import vn.edu.hcmute.mp.g4mediaplayer.R;
+import vn.edu.hcmute.mp.g4mediaplayer.adapter.PlayListAdapter;
+import vn.edu.hcmute.mp.g4mediaplayer.model.entity.PlayList;
+import vn.edu.hcmute.mp.g4mediaplayer.model.service.PlaylistService;
 import vn.edu.hcmute.mp.g4mediaplayer.utils.Tools;
 import vn.edu.hcmute.mp.g4mediaplayer.widget.SpacingItemDecoration;
 
@@ -27,6 +32,19 @@ public class PlaylistsFragment extends Fragment {
         recyclerView.addItemDecoration(new SpacingItemDecoration(2,
                 Tools.dpToPx(Objects.requireNonNull(getContext()), 4), true));
         recyclerView.setHasFixedSize(true);
+
+            try
+            {
+                PlaylistService service = new PlaylistService(getContext());
+                ArrayList<PlayList> playLists = service.getAll();
+
+                PlayListAdapter adapter = new PlayListAdapter(getContext(),playLists);
+                recyclerView.setAdapter(adapter);
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+
 
         return root;
     }
