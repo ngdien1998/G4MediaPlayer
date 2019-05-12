@@ -16,8 +16,6 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         PlaySongService service = PlayCenterActivity.service;
 
-        int currentPosition;
-
         int id = intent.getIntExtra(Consts.BUTTON_CLICKED_ID, -1);
 
         switch (id) {
@@ -30,6 +28,7 @@ public class NotificationReceiver extends BroadcastReceiver {
             case R.id.btn_prev:
                 service.playPreviousSong();
                 break;
+
         }
     }
 }
