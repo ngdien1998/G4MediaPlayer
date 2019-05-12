@@ -42,8 +42,8 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
             } catch (Exception e) {
                 Log.e("ERROR_READ", e.getMessage());
-                finish();
             }
+            startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
         }
     }
 

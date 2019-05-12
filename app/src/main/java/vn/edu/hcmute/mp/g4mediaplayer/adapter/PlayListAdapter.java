@@ -16,8 +16,6 @@ import java.util.ArrayList;
 
 import vn.edu.hcmute.mp.g4mediaplayer.R;
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.PlayList;
-import vn.edu.hcmute.mp.g4mediaplayer.model.entity.Song;
-import vn.edu.hcmute.mp.g4mediaplayer.model.service.ArtistService;
 import vn.edu.hcmute.mp.g4mediaplayer.model.service.PlaylistService;
 
 public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayListViewHolder> {
@@ -57,7 +55,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
             PlaylistService service = new PlaylistService(context);
             PlayList playList = playLists.get(position);
             playListViewHolder.txtPlayListName.setText(playList.getName());
-            playListViewHolder.txtSongCount.setText(service.GetSongNumber(Integer.parseInt(playList.getId())));
+            playListViewHolder.txtSongCount.setText(service.getSongNumber(playList.getId())+ " songs");
             playListViewHolder.parent.setOnClickListener(view ->{
                 if(onItemClick!=null)
                 {
@@ -71,9 +69,6 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
     }
 
     private void btnMoreClick(View view, PlayList playList) {
@@ -88,7 +83,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
 
     @Override
     public int getItemCount() {
-        return 0;
+        return playLists.size();
     }
 
     class PlayListViewHolder extends RecyclerView.ViewHolder {

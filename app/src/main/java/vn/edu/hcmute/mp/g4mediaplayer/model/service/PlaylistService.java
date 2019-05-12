@@ -25,37 +25,44 @@ public class PlaylistService extends SqliteHelper implements ServiceRepository<P
     public ArrayList<PlayList> getAll() {
         ArrayList<PlayList> playLists = new ArrayList<>();
 
-        String query = "SELECT * FROM Playlist";
-        Cursor cursor = database.rawQuery(query, null);
-        PlayList playList;
-        while (cursor.moveToNext()) {
-            playList = new PlayList();
-            playList.setId(cursor.getString(0));
-            playList.setName(cursor.getString(2));
+            String query = "SELECT * FROM Playlist";
+            Cursor cursor = database.rawQuery(query, null);
+            PlayList playList;
+            while (cursor.moveToNext()) {
+                playList = new PlayList();
+                playList.setId(cursor.getString(0));
+                playList.setName(cursor.getString(1));
 
 
-            Date date = null;
-            try {
-                date = new SimpleDateFormat("dd/MM/yyyy").parse(cursor.getString(3));
-            } catch (ParseException e) {
-                e.printStackTrace();
+                Date date = null;
+                try {
+                    date = new SimpleDateFormat("dd/MM/yyyy").parse(cursor.getString(2));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                playList.setCreatedDate(date);
+                playList.setImage(cursor.getBlob(3));
+
+                playLists.add(playList);
             }
 
-            playList.setCreatedDate(date);
-            playList.setImage(cursor.getBlob(4));
+            cursor.close();
 
-            playLists.add(playList);
-        }
-
-        cursor.close();
         return playLists;
     }
 
-    public int GetSongNumber(int id)
+    public int getSongNumber(String id)
     {
-        int count = 0;
 
-        return count;
+            String query = "SELECT count(*) FROM Song_PlayList WHERE ID_PlayList = ?";
+            Cursor cursor = database.rawQuery(query, new String[]{id});
+            if (cursor.moveToNext()) {
+                return cursor.getInt(0);
+            }
+            cursor.close();
+
+        return 0;
     }
 
     @Override
