@@ -34,7 +34,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void loadResource() {
-        if (ref.getBoolean(FIRST_RUN, true)) {
+        if (true) {
             try {
                 ScanSongService loadService = new ScanSongService(this);
                 loadService.scanAndSave();

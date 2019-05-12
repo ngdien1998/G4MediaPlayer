@@ -5,5 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".fragment.GenresFragment">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcl_genres"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </FrameLayout>
 

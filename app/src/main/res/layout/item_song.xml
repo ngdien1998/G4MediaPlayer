@@ -25,7 +25,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="@dimen/spacing_large"
             android:layout_marginBottom="@dimen/spacing_large"
-            android:src="@drawable/ic_music_note" />
+            android:src="@drawable/ic_music_note_green" />
 
         <View
             android:layout_width="@dimen/spacing_large"

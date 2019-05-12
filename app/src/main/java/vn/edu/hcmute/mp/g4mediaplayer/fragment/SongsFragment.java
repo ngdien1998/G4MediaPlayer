@@ -23,6 +23,8 @@ import vn.edu.hcmute.mp.g4mediaplayer.model.service.SongService;
 
 public class SongsFragment extends Fragment {
 
+    private ArrayList<Song> songs;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public class SongsFragment extends Fragment {
 
         try {
             SongService songService = new SongService(getContext());
-            ArrayList<Song> songs = songService.getAll();
+            songs = songService.getAll();
             SongAdapter adapter = new SongAdapter(getContext(), songs);
             rclSong.setAdapter(adapter);
 
@@ -49,11 +51,11 @@ public class SongsFragment extends Fragment {
     }
 
     private void adapterSong_itemClick(View view, Song song, int position) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Consts.SONG_EXTRA, song);
-
         Intent playIntent = new Intent(getActivity(), PlayCenterActivity.class);
-        playIntent.putExtra(Consts.SONG_BUNDLE_EXTRA, bundle);
+        playIntent.putExtra(Consts.SONGS_EXTRA, songs);
+        playIntent.putExtra(Consts.SONG_EXTRA, song);
+        playIntent.putExtra(Consts.SONG_POSITION_EXTRA, position);
+
         startActivity(playIntent);
     }
 
