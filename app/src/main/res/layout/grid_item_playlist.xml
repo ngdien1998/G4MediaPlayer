@@ -44,7 +44,6 @@
                     android:id="@+id/txt_song_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="fdfffffffddddddddddd"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textColor="@android:color/white" />
 
@@ -53,7 +52,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:text="yyyyyyyyyyyyyyyyyyyyyyyyy"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/grey_400"  />
 
