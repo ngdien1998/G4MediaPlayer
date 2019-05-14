@@ -11,12 +11,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import vn.edu.hcmute.mp.g4mediaplayer.R;
@@ -29,9 +31,12 @@ import vn.edu.hcmute.mp.g4mediaplayer.widget.SpacingItemDecoration;
 public class PlaylistsFragment extends Fragment {
     private EditText edtTitle;
     private TextInputLayout tilTitle;
-    PlaylistService service;
+
+    private PlaylistService service;
     PlayListAdapter adapter;
     ArrayList<PlayList> playLists;
+
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -45,13 +50,17 @@ public class PlaylistsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         FloatingActionButton fabAddPlaylist = root.findViewById(R.id.fab_add_playlist);
+
         fabAddPlaylist.setOnClickListener(this::fabAddPlaylistOnClick);
+
 
         try {
             service = new PlaylistService(getContext());
             playLists = service.getAll();
 
             adapter = new PlayListAdapter(getContext(), playLists);
+           // adapter.setOnItemClick(this::adapterPlaylist_itemClick);
+            adapter.setOnMoreItemClick(this::adapterPlaylist_itemMoreClick);
             recyclerView.setAdapter(adapter);
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,6 +69,38 @@ public class PlaylistsFragment extends Fragment {
 
         return root;
     }
+
+    private void adapterPlaylist_itemMoreClick(View view, PlayList playList, MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.menu_item_play:
+
+                break;
+            case R.id.menu_item_rename:
+
+                break;
+            case R.id.menu_item_delete:
+                  deletePlaylist(playList);
+                break;
+
+        }
+    }
+
+    private void deletePlaylist(PlayList playList) {
+        try {
+
+            service = new PlaylistService(getContext());
+
+       service.deletePLaylist(playList.getId());
+        playLists.clear();
+        playLists.addAll(service.getAll());
+        adapter.notifyDataSetChanged();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 
     private void fabAddPlaylistOnClick(View view) {
         LayoutInflater inflater = getLayoutInflater();
@@ -99,5 +140,15 @@ public class PlaylistsFragment extends Fragment {
 
     private void dialogOnNegativeButtonClick(DialogInterface dialogInterface, int i) {
         dialogInterface.dismiss();
+    }
+
+    public List<String> getName() {
+        try {
+            service = new PlaylistService(getContext());
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+            return  service.getName();
     }
 }
