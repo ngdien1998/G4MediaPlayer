@@ -60,10 +60,7 @@ public class PlaylistService extends SqliteHelper implements ServiceRepository<P
         Cursor cursor = database.rawQuery(query, null);
         PlayList playList;
         while (cursor.moveToNext()) {
-
             String name = cursor.getString(0);
-
-
             playLists.add(name);
         }
 
@@ -73,7 +70,6 @@ public class PlaylistService extends SqliteHelper implements ServiceRepository<P
     }
     public int getSongNumber(String id)
     {
-
             String query = "SELECT count(*) FROM Song_PlayList WHERE ID_PlayList = ?";
             Cursor cursor = database.rawQuery(query, new String[]{id});
             if (cursor.moveToNext()) {
@@ -101,19 +97,40 @@ public class PlaylistService extends SqliteHelper implements ServiceRepository<P
 
     public void add(String ID_Playlist, String ID_Song)
     {
-        ContentValues values = new ContentValues();
-        values.put("ID_Song",ID_Playlist);
-        values.put("ID_Playlist",ID_Song);
-        if(database.insert("Song_PlayList",null,values) >0)
+        try {
+            ContentValues values = new ContentValues();
+            values.put("ID_Song", ID_Song );
+            values.put("ID_PlayList",ID_Playlist );
+            database.insert("Song_PlayList", null, values);
+        }
+        catch (Exception e)
         {
-            System.out.println("thanh cong");
-        };
+            e.printStackTrace();
+        }
+
     }
     public  void deletePLaylist(String id)
     {
         try {
             String query = "DELETE FROM Playlist WHERE ID = ?";
-            database.rawQuery(query, new String[]{id});
+            database.execSQL(query, new String[]{id});
+
+             query = "DELETE FROM Song_PlayList WHERE ID_PlayList = ?";
+            database.execSQL(query, new String[]{id});
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public  void rename(String id,String newname)
+    {
+        try {
+            String query = "UPDATE Playlist SET Name = ? WHERE ID = ?";
+            database.execSQL(query, new String[]{newname, id});
+
         }
         catch (Exception e)
         {
@@ -124,8 +141,6 @@ public class PlaylistService extends SqliteHelper implements ServiceRepository<P
 
     @Override
     public void delete(Object... keys) {
-
-
         try {
             database.execSQL("DELETE FROM Playlist WHERE ID = ?", new String[]{(String) keys[0]});
         }

@@ -2,7 +2,9 @@ package vn.edu.hcmute.mp.g4mediaplayer.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
@@ -22,8 +24,11 @@ import java.util.List;
 import java.util.Objects;
 
 import vn.edu.hcmute.mp.g4mediaplayer.R;
+import vn.edu.hcmute.mp.g4mediaplayer.activity.PlayCenterActivity;
 import vn.edu.hcmute.mp.g4mediaplayer.adapter.PlayListAdapter;
+import vn.edu.hcmute.mp.g4mediaplayer.common.Consts;
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.PlayList;
+import vn.edu.hcmute.mp.g4mediaplayer.model.entity.Song;
 import vn.edu.hcmute.mp.g4mediaplayer.model.service.PlaylistService;
 import vn.edu.hcmute.mp.g4mediaplayer.utils.Tools;
 import vn.edu.hcmute.mp.g4mediaplayer.widget.SpacingItemDecoration;
@@ -65,32 +70,73 @@ public class PlaylistsFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         return root;
     }
+    private void adapterPlaylist_itemClick(View view, PlayList playList, int position) {
+        Intent playIntent = new Intent(getActivity(), PlayCenterActivity.class);
+        playIntent.putExtra(Consts.SONGS_EXTRA, playLists);
+        playIntent.putExtra(Consts.SONG_EXTRA, playList);
+        playIntent.putExtra(Consts.SONG_POSITION_EXTRA, position);
 
+        startActivity(playIntent);
+    }
     private void adapterPlaylist_itemMoreClick(View view, PlayList playList, MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.menu_item_play:
-
+                adapterPlaylist_itemClick(view,playList,0);
                 break;
             case R.id.menu_item_rename:
-
+                renamePlaylist(playList);
                 break;
             case R.id.menu_item_delete:
                   deletePlaylist(playList);
                 break;
-
         }
     }
 
+    private void renamePlaylist(PlayList playList) {
+        LayoutInflater inflater = getLayoutInflater();
+
+        @SuppressLint("InflateParams")
+        View enterTitleDialog = inflater.inflate(R.layout.layout_dialog, null);
+
+        tilTitle = enterTitleDialog.findViewById(R.id.tilTitle);
+        edtTitle = enterTitleDialog.findViewById(R.id.edtTitle);
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
+        dialogBuilder.setTitle("New name");
+        dialogBuilder.setView(enterTitleDialog);
+        dialogBuilder.setCancelable(true);
+        dialogBuilder.setNegativeButton("Cancel", this::dialogOnNegativeButtonClick);
+        dialogBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    service = new PlaylistService(getContext());
+                    String newname = edtTitle.getText().toString().trim();
+                    service.rename(playList.getId(), newname);
+                    playLists.clear();
+                    playLists.addAll(service.getAll());
+                    adapter.notifyDataSetChanged();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        dialogBuilder.show();
+
+    }
+
+
+
     private void deletePlaylist(PlayList playList) {
         try {
-
             service = new PlaylistService(getContext());
 
-       service.deletePLaylist(playList.getId());
+        service.deletePLaylist(playList.getId());
         playLists.clear();
         playLists.addAll(service.getAll());
         adapter.notifyDataSetChanged();
@@ -112,7 +158,7 @@ public class PlaylistsFragment extends Fragment {
         edtTitle = enterTitleDialog.findViewById(R.id.edtTitle);
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
-        dialogBuilder.setTitle("Enter playlist's name");
+        dialogBuilder.setTitle("Playlist Name");
         dialogBuilder.setView(enterTitleDialog);
         dialogBuilder.setCancelable(true);
         dialogBuilder.setNegativeButton("Cancel", this::dialogOnNegativeButtonClick);
