@@ -5,4 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".fragment.ArtistsFragment">
 
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcl_artists"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </FrameLayout>

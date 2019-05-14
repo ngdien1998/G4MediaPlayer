@@ -64,4 +64,5 @@ public class SongService extends SqliteHelper implements ServiceRepository<Song>
         String query="UPDATE Song SET Name = ? WHERE ID=?";
         database.execSQL(query, new String[]{newEntity.getName(),oldEntity.getId()});
     }
+
 }
