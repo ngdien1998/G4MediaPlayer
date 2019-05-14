@@ -107,12 +107,12 @@ public class SongsFragment extends Fragment {
 
     private void showPopup(Song song) {
 
-        List<String> mAnimals = new ArrayList<String>();
+        List<String> PlaylistName = new ArrayList<String>();
         try
         {
             for (PlayList playlist : playLists)
             {
-                mAnimals.add(playlist.getName());
+                PlaylistName.add(playlist.getName());
 
             }
 
@@ -121,16 +121,29 @@ public class SongsFragment extends Fragment {
             e.printStackTrace();
         }
         //Create sequence of items
-        final CharSequence[] Animals = mAnimals.toArray(new String[mAnimals.size()]);
+        final CharSequence[] ListName = PlaylistName.toArray(new String[PlaylistName.size()]);
+
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         dialogBuilder.setTitle("Playlist");
-        dialogBuilder.setItems(Animals, new DialogInterface.OnClickListener() {
+        dialogBuilder.setMessage("");
+        dialogBuilder.setItems(ListName, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-                String selectedText = Animals[item].toString();  //Selected item in listview
                 playlistService.add(playLists.get(item).getId(),song.getId());
                 int count  = playlistService.getSongNumber(playLists.get(item).getId());
         }
         });
+
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+
+        View view = inflater.inflate(R.layout.item_playlist_menu, null);
+        ListView lvPlayList = view.findViewById(R.id.lv_play_list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, PlaylistName);
+        lvPlayList.setAdapter(adapter);
+        lvPlayList.setOnItemClickListener((parent, view1, position, id) -> {
+
+        });
+
+        dialogBuilder.setView(view);
         //Create alert dialog object via builder
         AlertDialog alertDialogObject = dialogBuilder.create();
         //Show the dialog
