@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import vn.edu.hcmute.mp.g4mediaplayer.R;
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.PlayList;
@@ -25,13 +26,18 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
     private OnItemClickListener onItemClick;
     private OnMoreItemClickListener onMoreItemClick;
 
-
     public PlayListAdapter(Context context, ArrayList<PlayList> playLists)
     {
           this.context = context;
           this.playLists=playLists;
           inflater = LayoutInflater.from(context);
     }
+
+    public PlayListAdapter()
+    {
+
+    }
+
     public void setOnItemClick(OnItemClickListener onItemClick) {
         this.onItemClick = onItemClick;
     }
@@ -39,6 +45,9 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
     public void setOnMoreItemClick(OnMoreItemClickListener onMoreItemClick) {
         this.onMoreItemClick = onMoreItemClick;
     }
+
+
+
     @NonNull
     @Override
     //khi mới chạy lên đi vào hàm này
@@ -51,8 +60,10 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
 
     @Override
     public void onBindViewHolder(@NonNull PlayListViewHolder playListViewHolder, int position) {
+
+        PlaylistService service = null;
         try {
-            PlaylistService service = new PlaylistService(context);
+            service = new PlaylistService(context);
             PlayList playList = playLists.get(position);
             playListViewHolder.txtPlayListName.setText(playList.getName());
             playListViewHolder.txtSongCount.setText(service.getSongNumber(playList.getId())+ " songs");
@@ -66,9 +77,11 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
             playListViewHolder.btnMore.setOnClickListener(view ->{
                 btnMoreClick(view,playList);
             });
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     private void btnMoreClick(View view, PlayList playList) {

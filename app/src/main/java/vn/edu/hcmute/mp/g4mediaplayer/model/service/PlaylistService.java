@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.PlayList;
+import vn.edu.hcmute.mp.g4mediaplayer.model.entity.Song;
 
 public class PlaylistService extends SqliteHelper implements ServiceRepository<PlayList> {
 
@@ -54,6 +55,24 @@ public class PlaylistService extends SqliteHelper implements ServiceRepository<P
         return playLists;
     }
 
+    public ArrayList<String> getName() {
+        ArrayList<String> playLists = new ArrayList<>();
+
+        String query = "SELECT Name FROM Playlist";
+        Cursor cursor = database.rawQuery(query, null);
+        PlayList playList;
+        while (cursor.moveToNext()) {
+
+            String name = cursor.getString(0);
+
+
+            playLists.add(name);
+        }
+
+        cursor.close();
+
+        return playLists;
+    }
     public int getSongNumber(String id)
     {
 
@@ -82,8 +101,40 @@ public class PlaylistService extends SqliteHelper implements ServiceRepository<P
         database.insert("PlayList",null,values);
     }
 
+    public void add(String ID_Playlist, String ID_Song)
+    {
+        ContentValues values = new ContentValues();
+        values.put("ID_Song",ID_Playlist);
+        values.put("ID_Playlist",ID_Song);
+        if(database.insert("Song_PlayList",null,values) >0)
+        {
+            System.out.println("thanh cong");
+        };
+    }
+    public  void deletePLaylist(String id)
+    {
+        try {
+            String query = "DELETE FROM Playlist WHERE ID = ?";
+            database.rawQuery(query, new String[]{id});
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
     @Override
     public void delete(Object... keys) {
+
+
+        try {
+            database.execSQL("DELETE FROM Playlist WHERE ID = ?", new String[]{(String) keys[0]});
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
     }
 
@@ -94,3 +145,4 @@ public class PlaylistService extends SqliteHelper implements ServiceRepository<P
 
 
 }
+
