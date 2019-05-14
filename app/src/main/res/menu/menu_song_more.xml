@@ -18,6 +18,11 @@
         android:title="Add to playlist"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_rename"
+        android:orderInCategory="100"
+        android:title="Rename"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_delete"
         android:orderInCategory="100"
         android:title="Delete"

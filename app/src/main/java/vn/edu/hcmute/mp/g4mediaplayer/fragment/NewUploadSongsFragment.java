@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,6 +27,7 @@ public class NewUploadSongsFragment extends Fragment {
 
     private int defaultTake = 20;
     private final int TAKE_COUNT = 10;
+    ArrayList<Song> songs;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,7 +45,9 @@ public class NewUploadSongsFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<List<Song>> call, @NonNull Response<List<Song>> response) {
                 if (response.code() == 200) {
-                    List<Song> songs = response.body();
+                    List<Song> body = response.body();
+                    assert body != null;
+                    songs = new ArrayList<>(body);
                     OnlineSongAdapter adapter = new OnlineSongAdapter(getContext(), songs);
                     rclNewUploadSongs.setAdapter(adapter);
 

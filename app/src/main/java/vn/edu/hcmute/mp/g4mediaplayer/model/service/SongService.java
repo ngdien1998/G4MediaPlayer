@@ -49,15 +49,19 @@ public class SongService extends SqliteHelper implements ServiceRepository<Song>
     }
 
     @Override
-    @Deprecated
     public void delete(Object... keys) {
+        if (keys != null && keys.length > 0) {
+            String query = "DELETE FROM Song WHERE ID = ?";
+            database.execSQL(query, new String[]{(String) keys[0]});
+        }
     }
 
     public void delete(String idSong, boolean alsoDeleteOnDevice) {
     }
 
     @Override
-    @Deprecated
     public void edit(Song oldEntity, Song newEntity) {
+        String query="UPDATE Song SET Name = ? WHERE ID=?";
+        database.execSQL(query, new String[]{newEntity.getName(),oldEntity.getId()});
     }
 }
