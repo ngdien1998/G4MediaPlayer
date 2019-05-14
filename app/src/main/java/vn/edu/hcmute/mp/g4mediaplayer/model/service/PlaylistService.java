@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.PlayList;
+import vn.edu.hcmute.mp.g4mediaplayer.model.entity.Song;
 
 public class PlaylistService extends SqliteHelper implements ServiceRepository<PlayList> {
 
@@ -52,9 +53,23 @@ public class PlaylistService extends SqliteHelper implements ServiceRepository<P
         return playLists;
     }
 
+    public ArrayList<String> getName() {
+        ArrayList<String> playLists = new ArrayList<>();
+
+        String query = "SELECT Name FROM Playlist";
+        Cursor cursor = database.rawQuery(query, null);
+        PlayList playList;
+        while (cursor.moveToNext()) {
+            String name = cursor.getString(0);
+            playLists.add(name);
+        }
+
+        cursor.close();
+
+        return playLists;
+    }
     public int getSongNumber(String id)
     {
-
             String query = "SELECT count(*) FROM Song_PlayList WHERE ID_PlayList = ?";
             Cursor cursor = database.rawQuery(query, new String[]{id});
             if (cursor.moveToNext()) {
@@ -80,8 +95,59 @@ public class PlaylistService extends SqliteHelper implements ServiceRepository<P
         database.insert("PlayList",null,values);
     }
 
+    public void add(String ID_Playlist, String ID_Song)
+    {
+        try {
+            ContentValues values = new ContentValues();
+            values.put("ID_Song", ID_Song );
+            values.put("ID_PlayList",ID_Playlist );
+            database.insert("Song_PlayList", null, values);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+    public  void deletePLaylist(String id)
+    {
+        try {
+            String query = "DELETE FROM Playlist WHERE ID = ?";
+            database.execSQL(query, new String[]{id});
+
+             query = "DELETE FROM Song_PlayList WHERE ID_PlayList = ?";
+            database.execSQL(query, new String[]{id});
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public  void rename(String id,String newname)
+    {
+        try {
+            String query = "UPDATE Playlist SET Name = ? WHERE ID = ?";
+            database.execSQL(query, new String[]{newname, id});
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
     @Override
     public void delete(Object... keys) {
+        try {
+            database.execSQL("DELETE FROM Playlist WHERE ID = ?", new String[]{(String) keys[0]});
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
     }
 
@@ -92,3 +158,4 @@ public class PlaylistService extends SqliteHelper implements ServiceRepository<P
 
 
 }
+

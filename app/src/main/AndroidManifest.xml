@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SongOfArtistsActivity"></activity>
+        <activity android:name=".activity.PlaylistSong"></activity>
+        <activity android:name=".activity.SongOfArtistsActivity" />
         <activity android:name=".activity.PlayCenterActivity" />
         <activity android:name=".activity.SearchResultsActivity">
             <intent-filter>
@@ -44,7 +45,10 @@
             </intent-filter>
         </activity>
 
-        <service android:enabled="true" android:name=".service.PlaySongService" />
+        <service
+            android:name=".service.PlaySongService"
+            android:enabled="true" />
+
         <receiver android:name=".notification.NotificationReceiver">
             <intent-filter>
                 <action android:name="click_intent" />
