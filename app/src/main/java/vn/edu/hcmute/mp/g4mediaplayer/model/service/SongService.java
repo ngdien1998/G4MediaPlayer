@@ -60,4 +60,5 @@ public class SongService extends SqliteHelper implements ServiceRepository<Song>
     @Deprecated
     public void edit(Song oldEntity, Song newEntity) {
     }
+
 }
