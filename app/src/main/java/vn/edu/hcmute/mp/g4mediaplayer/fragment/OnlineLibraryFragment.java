@@ -19,7 +19,7 @@ public class OnlineLibraryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_online_library, container, false);
         ViewPageAdapter pageAdapter = new ViewPageAdapter(getChildFragmentManager());
 
-        pageAdapter.addFragment("New upload", new PlaylistsFragment());
+        pageAdapter.addFragment("Top news", new NewUploadSongsFragment());
 
         TabLayout tabLayout = view.findViewById(R.id.tab_layout_library);
         ViewPager pgrMain = view.findViewById(R.id.pgrMain);

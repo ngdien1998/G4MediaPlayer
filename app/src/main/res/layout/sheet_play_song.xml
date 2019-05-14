@@ -44,7 +44,7 @@
                     android:layout_margin="8dp"
                     android:padding="10dp"
                     android:tint="@color/grey_80"
-                    app:srcCompat="@drawable/ic_music_note" />
+                    app:srcCompat="@drawable/ic_music_note_green" />
 
                 <LinearLayout
                     android:layout_width="0dp"

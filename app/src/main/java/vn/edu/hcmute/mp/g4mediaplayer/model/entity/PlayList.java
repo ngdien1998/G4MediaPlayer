@@ -8,7 +8,7 @@ public class PlayList {
     private String id;
     private String name;
     private Date createdDate;
-    private Bitmap image;
+    private byte[] image;
 
     public String getId() {
         return id;
@@ -34,11 +34,11 @@ public class PlayList {
         this.createdDate = createdDate;
     }
 
-    public Bitmap getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(Bitmap image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 }

@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity
 
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_listen_now:
-                actionBar.setTitle("Listen now");
+            case R.id.nav_online_music:
+                actionBar.setTitle("Online music");
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_container, new OnlineLibraryFragment())
                         .commit();
