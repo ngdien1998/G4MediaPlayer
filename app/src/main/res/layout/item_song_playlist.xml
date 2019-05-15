@@ -66,7 +66,7 @@
                     android:layout_height="0dp" />
 
                 <ImageButton
-                    android:id="@+id/btn_more"
+                    android:id="@+id/btnmore"
                     android:background="@android:color/transparent"
                     android:layout_width="wrap_content"
                     android:contentDescription="@string/btn_more_desc"
