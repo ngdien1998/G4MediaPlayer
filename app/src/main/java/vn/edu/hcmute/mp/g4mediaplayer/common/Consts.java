@@ -11,4 +11,5 @@ public class Consts {
     public static final String NAVIGATION_FROM = "NAVIGATION_FROM";
     public static final String MUSIC_IS_PLAYING = "IS_PLAYING_MUSIC";
     public static final String BUTTON_CLICKED_ID = "BUTTON_CLICKED_ID";
+    public static final String PLAY_LIST = "PLAYLIST";
 }

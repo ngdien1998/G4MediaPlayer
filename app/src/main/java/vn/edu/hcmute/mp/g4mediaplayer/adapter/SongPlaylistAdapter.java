@@ -22,18 +22,20 @@ import vn.edu.hcmute.mp.g4mediaplayer.R;
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.Song;
 import vn.edu.hcmute.mp.g4mediaplayer.model.service.ArtistService;
 
-public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder> {
+public class SongPlaylistAdapter extends RecyclerView.Adapter<SongPlaylistAdapter.SongViewHolder> {
 
     private Context context;
     private ArrayList<Song> songs;
     private OnItemClickListener onItemClick;
     private OnMoreItemClickListener onMoreItemClick;
     private ArtistService artistService;
+    LayoutInflater inflater;
 
-    public SongAdapter(Context context, ArrayList<Song> songs) throws IOException {
+    public SongPlaylistAdapter(Context context, ArrayList<Song> songs) throws IOException {
         this.context = context;
         this.songs = songs;
         artistService = new ArtistService(context);
+        inflater = LayoutInflater.from(context);
     }
 
     public void setOnItemClick(OnItemClickListener onItemClick) {
@@ -47,41 +49,50 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     @NonNull
     @Override
     public SongViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_song, viewGroup, false);
-        return new SongViewHolder(view);
+        try {
+            View view = inflater.inflate(R.layout.item_song_playlist, viewGroup, false);
+            return new SongViewHolder(view);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public void onBindViewHolder(@NonNull SongViewHolder songViewHolder, int position) {
-        Song song = songs.get(position);
+        try {
+            Song song = songs.get(position);
 
-        byte[] songImg = song.getImage();
-        if (songImg != null) {
-            Bitmap image = BitmapFactory.decodeByteArray(songImg, 0, songImg.length);
-            songViewHolder.imgSong.setImageBitmap(image);
-        }
-
-        String songName = song.getName();
-        if (!songName.isEmpty()) {
-            songViewHolder.txtName.setText(songName);
-        }
-
-        String artist = artistService.getSongArtist(song.getId());
-        if (!artist.isEmpty()) {
-            songViewHolder.txtArtist.setText(artist);
-        }
-
-        songViewHolder.lyt_parent.setOnClickListener(view -> {
-            if (onItemClick != null) {
-                onItemClick.onItemClick(view, song, position);
+            byte[] songImg = song.getImage();
+            if (songImg != null) {
+                Bitmap image = BitmapFactory.decodeByteArray(songImg, 0, songImg.length);
+                songViewHolder.imgSong.setImageBitmap(image);
             }
-        });
 
-        songViewHolder.btnMore.setOnClickListener(view -> {
-            if (onMoreItemClick != null) {
-                onMoreButtonClick(view, song);
+            String songName = song.getName();
+            if (!songName.isEmpty()) {
+                songViewHolder.txtName.setText(songName);
             }
-        });
+
+            String artist = artistService.getSongArtist(song.getId());
+            if (!artist.isEmpty()) {
+                songViewHolder.txtArtist.setText(artist);
+            }
+
+            songViewHolder.lyt_parent.setOnClickListener(view -> {
+                if (onItemClick != null) {
+                    onItemClick.onItemClick(view, song, position);
+                }
+            });
+
+            songViewHolder.btnMore.setOnClickListener(view -> {
+                if (onMoreItemClick != null) {
+                    onMoreButtonClick(view, song);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void onMoreButtonClick(View view, Song song) {
@@ -90,7 +101,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
             onMoreItemClick.onMoreItemClick(view, song, item);
             return true;
         });
-        popupMenu.inflate(R.menu.menu_song_more);
+        popupMenu.inflate(R.menu.menu_song_playlist_more);
         popupMenu.show();
     }
 
@@ -118,11 +129,15 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
         SongViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imgSong = itemView.findViewById(R.id.img_song);
-            txtName = itemView.findViewById(R.id.txt_song_name);
-            txtArtist = itemView.findViewById(R.id.txt_artist);
-            btnMore = itemView.findViewById(R.id.btn_more);
-            lyt_parent = itemView.findViewById(R.id.lyt_parent);
+            try {
+                imgSong = itemView.findViewById(R.id.img_song);
+                txtName = itemView.findViewById(R.id.txt_song_name);
+                txtArtist = itemView.findViewById(R.id.txt_artist);
+                btnMore = itemView.findViewById(R.id.btn_more);
+                lyt_parent = itemView.findViewById(R.id.lyt_parent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

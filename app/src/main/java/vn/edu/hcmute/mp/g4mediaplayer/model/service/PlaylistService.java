@@ -4,12 +4,14 @@ package vn.edu.hcmute.mp.g4mediaplayer.model.service;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.widget.ListView;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.PlayList;
@@ -68,6 +70,32 @@ public class PlaylistService extends SqliteHelper implements ServiceRepository<P
 
         return playLists;
     }
+
+    public ArrayList<Song> getSongList(String ID)
+    {
+        ArrayList<Song> songs = new ArrayList<>();
+
+        String query = "SELECT * FROM Song,Song_PlayList WHERE ID = ID_Song AND ID_PLayList = ?";
+        Cursor cursor = database.rawQuery(query, new String[]{ID});
+        Song song;
+        while (cursor.moveToNext()) {
+            song = new Song();
+            song.setId(cursor.getString(0));
+            song.setName(cursor.getString(1));
+            song.setAuthor(cursor.getString(2));
+            song.setComposer(cursor.getString(3));
+            song.setBitrate(cursor.getString(4));
+            song.setImage(cursor.getBlob(5));
+            song.setFilePath(cursor.getString(6));
+
+            songs.add(song);
+        }
+        cursor.close();
+
+        return songs;
+
+    }
+
     public int getSongNumber(String id)
     {
             String query = "SELECT count(*) FROM Song_PlayList WHERE ID_PlayList = ?";

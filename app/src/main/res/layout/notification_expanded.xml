@@ -57,45 +57,40 @@
         <ImageButton
             android:layout_weight="1"
             android:id="@+id/btn_repeat"
-            android:layout_width="?android:actionBarSize"
-            android:layout_height="?android:actionBarSize"
-            android:background="?android:selectableItemBackgroundBorderless"
             android:tint="@color/grey_90"
-            android:src="@drawable/ic_repeat_normal" />
+            android:src="@drawable/ic_repeat_normal"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
 
         <ImageButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:id="@+id/btn_prev"
-            android:layout_width="?android:actionBarSize"
-            android:layout_height="?android:actionBarSize"
             android:layout_weight="1"
-            android:background="?android:selectableItemBackgroundBorderless"
             android:tint="@color/grey_90"
             android:src="@drawable/ic_skip_previous" />
 
         <ImageButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:id="@+id/btn_play"
-            android:layout_width="?android:actionBarSize"
-            android:layout_height="?android:actionBarSize"
             android:layout_weight="1"
-            android:background="?android:selectableItemBackgroundBorderless"
             android:tint="@color/red_600"
             android:src="@drawable/ic_pause" />
 
         <ImageButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:id="@+id/btn_next"
-            android:layout_width="?android:actionBarSize"
-            android:layout_height="?android:actionBarSize"
             android:layout_weight="1"
-            android:background="?android:selectableItemBackgroundBorderless"
             android:tint="@color/grey_90"
             android:src="@drawable/ic_skip_next" />
 
         <ImageButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_weight="1"
             android:id="@+id/btn_shuffle"
-            android:layout_width="?android:actionBarSize"
-            android:layout_height="?android:actionBarSize"
-            android:background="?android:selectableItemBackgroundBorderless"
             android:src="@drawable/ic_shuffle_normal" />
 
     </LinearLayout>

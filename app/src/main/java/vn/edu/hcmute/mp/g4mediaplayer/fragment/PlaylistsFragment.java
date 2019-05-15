@@ -25,6 +25,7 @@ import java.util.Objects;
 
 import vn.edu.hcmute.mp.g4mediaplayer.R;
 import vn.edu.hcmute.mp.g4mediaplayer.activity.PlayCenterActivity;
+import vn.edu.hcmute.mp.g4mediaplayer.activity.PlaylistSongActivity;
 import vn.edu.hcmute.mp.g4mediaplayer.adapter.PlayListAdapter;
 import vn.edu.hcmute.mp.g4mediaplayer.common.Consts;
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.PlayList;
@@ -59,6 +60,8 @@ public class PlaylistsFragment extends Fragment {
         fabAddPlaylist.setOnClickListener(this::fabAddPlaylistOnClick);
 
 
+
+
         try {
             service = new PlaylistService(getContext());
             playLists = service.getAll();
@@ -66,24 +69,25 @@ public class PlaylistsFragment extends Fragment {
             adapter = new PlayListAdapter(getContext(), playLists);
            // adapter.setOnItemClick(this::adapterPlaylist_itemClick);
             adapter.setOnMoreItemClick(this::adapterPlaylist_itemMoreClick);
+            adapter.setOnItemClick(this::adapterPlaylist_itemClick);
             recyclerView.setAdapter(adapter);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return root;
     }
-    private void adapterPlaylist_itemClick(View view, PlayList playList, int position) {
-        Intent playIntent = new Intent(getActivity(), PlayCenterActivity.class);
-        playIntent.putExtra(Consts.SONGS_EXTRA, playLists);
-        playIntent.putExtra(Consts.SONG_EXTRA, playList);
-        playIntent.putExtra(Consts.SONG_POSITION_EXTRA, position);
 
-        startActivity(playIntent);
+    private void adapterPlaylist_itemClick(View view, PlayList playList, int i) {
+        Intent intent = new Intent(getContext(), PlaylistSongActivity.class);
+        intent.putExtra(Consts.PLAY_LIST, playList);
+        startActivity(intent);
     }
+
+
     private void adapterPlaylist_itemMoreClick(View view, PlayList playList, MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.menu_item_play:
-                adapterPlaylist_itemClick(view,playList,0);
+                adapterPlaylists_itemClick(view, playList);
                 break;
             case R.id.menu_item_rename:
                 renamePlaylist(playList);
@@ -92,6 +96,16 @@ public class PlaylistsFragment extends Fragment {
                   deletePlaylist(playList);
                 break;
         }
+    }
+
+    private void adapterPlaylists_itemClick(View view, PlayList playList){
+        ArrayList<Song> lstSong = service.getSongList(playList.getId());
+        Intent playIntent = new Intent(getActivity(), PlayCenterActivity.class);
+        playIntent.putExtra(Consts.SONGS_EXTRA, lstSong);
+        playIntent.putExtra(Consts.SONG_EXTRA, lstSong.get(0));
+        playIntent.putExtra(Consts.SONG_POSITION_EXTRA, 0);
+
+        startActivity(playIntent);
     }
 
     private void renamePlaylist(PlayList playList) {
