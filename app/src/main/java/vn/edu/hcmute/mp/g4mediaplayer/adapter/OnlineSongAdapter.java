@@ -1,13 +1,18 @@
 package vn.edu.hcmute.mp.g4mediaplayer.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.common.util.Base64Utils;
 
 import java.util.List;
 
@@ -57,6 +62,13 @@ public class OnlineSongAdapter extends RecyclerView.Adapter<OnlineSongAdapter.On
         onlineSongViewHolder.txtName.setText(song.getName());
         onlineSongViewHolder.txtArtist.setText(song.getArtist());
 
+        String imageString = song.getImage();
+        if (imageString != null) {
+            byte[] imageBytes = Base64Utils.decode(imageString);
+            Bitmap imageBitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            onlineSongViewHolder.imgSong.setImageBitmap(imageBitmap);
+        }
+
         onlineSongViewHolder.btnPlay.setOnClickListener(view -> {
             if (onButtonPlayClick != null) {
                 onButtonPlayClick.onClick(view, song, position);
@@ -99,6 +111,7 @@ public class OnlineSongAdapter extends RecyclerView.Adapter<OnlineSongAdapter.On
         ImageButton btnDownload;
         ImageButton btnInterrest;
         View lyt_parent;
+        ImageView imgSong;
 
         OnlineSongViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -109,6 +122,7 @@ public class OnlineSongAdapter extends RecyclerView.Adapter<OnlineSongAdapter.On
             btnDownload = itemView.findViewById(R.id.btn_download);
             btnInterrest = itemView.findViewById(R.id.btn_interested);
             lyt_parent = itemView.findViewById(R.id.lyt_parent);
+            imgSong = itemView.findViewById(R.id.img_song);
         }
     }
 }

@@ -1,6 +1,7 @@
 package vn.edu.hcmute.mp.g4mediaplayer.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -18,10 +19,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.edu.hcmute.mp.g4mediaplayer.R;
+import vn.edu.hcmute.mp.g4mediaplayer.activity.OnlinePlayingCenterActivity;
 import vn.edu.hcmute.mp.g4mediaplayer.adapter.OnlineSongAdapter;
 import vn.edu.hcmute.mp.g4mediaplayer.api.ApiService;
 import vn.edu.hcmute.mp.g4mediaplayer.api.SongsService;
 import vn.edu.hcmute.mp.g4mediaplayer.api.model.Song;
+import vn.edu.hcmute.mp.g4mediaplayer.common.Consts;
 
 public class NewUploadSongsFragment extends Fragment {
 
@@ -58,7 +61,12 @@ public class NewUploadSongsFragment extends Fragment {
             }
 
             private void adapterOnItemClick(View view, Song song, int position) {
+                Intent intent = new Intent(getContext(), OnlinePlayingCenterActivity.class);
+                intent.putExtra(Consts.SONGS_EXTRA, songs);
+                intent.putExtra(Consts.SONG_EXTRA, song);
+                intent.putExtra(Consts.SONG_POSITION_EXTRA, position);
 
+                startActivity(intent);
             }
 
             @Override

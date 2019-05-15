@@ -3,8 +3,6 @@ package vn.edu.hcmute.mp.g4mediaplayer.activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
@@ -19,13 +17,13 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import vn.edu.hcmute.mp.g4mediaplayer.R;
-import vn.edu.hcmute.mp.g4mediaplayer.common.Consts;
 import vn.edu.hcmute.mp.g4mediaplayer.api.model.Song;
-import vn.edu.hcmute.mp.g4mediaplayer.service.PlaySongService;
+import vn.edu.hcmute.mp.g4mediaplayer.common.Consts;
+import vn.edu.hcmute.mp.g4mediaplayer.service.OnlinePlaySongService;
 
 public class OnlinePlayingCenterActivity extends AppCompatActivity implements ServiceConnection {
 
-    public static PlaySongService service;
+    public static OnlinePlaySongService service;
     private final SimpleDateFormat timeFormat = new SimpleDateFormat("mm:ss", Locale.getDefault());
 
     ArrayList<Song> songs;
@@ -53,7 +51,7 @@ public class OnlinePlayingCenterActivity extends AppCompatActivity implements Se
     }
 
     private void setupService() {
-        serviceIntent = new Intent(OnlinePlayingCenterActivity.this, PlaySongService.class);
+        serviceIntent = new Intent(OnlinePlayingCenterActivity.this, OnlinePlaySongService.class);
         serviceIntent.putExtra(Consts.SONGS_EXTRA, songs);
         serviceIntent.putExtra(Consts.SONG_EXTRA, currentSong);
         serviceIntent.putExtra(Consts.SONG_POSITION_EXTRA, currentSongPosition);
@@ -164,26 +162,27 @@ public class OnlinePlayingCenterActivity extends AppCompatActivity implements Se
         currentSong = (Song) intent.getSerializableExtra(Consts.SONG_EXTRA);
         currentSongPosition = intent.getIntExtra(Consts.SONG_POSITION_EXTRA, 0);
 
-        setDisplayForCurrentSong();
+        //setDisplayForCurrentSong();
     }
 
     private void setDisplayForCurrentSong() {
         txtSongName.setText(currentSong.getName());
-        txtArtistName.setText(artistService.getSongArtist(currentSong.getId()));
+        txtArtistName.setText(currentSong.getArtist());
         txtTotalSongTime.setText(timeFormat.format(service.getTotalDuration()));
         skbSong.setMax(service.getTotalDuration());
 
-        byte[] imgBytes = currentSong.getImage();
-        if (imgBytes != null) {
-            Bitmap imgBitmap = BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length);
-            imgSongSmall.setImageBitmap(imgBitmap);
-            imgSongMain.setImageBitmap(imgBitmap);
-        }
+//        String imgBytes = currentSong.getImage();
+//        if (imgBytes != null) {
+//            byte[] imgBytes =
+//            Bitmap imgBitmap = BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length);
+//            imgSongSmall.setImageBitmap(imgBitmap);
+//            imgSongMain.setImageBitmap(imgBitmap);
+//        }
     }
 
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
-        OnlinePlayingCenterActivity.service = ((PlaySongService.LocalBinder) service).getService();
+        OnlinePlayingCenterActivity.service = ((OnlinePlaySongService.LocalBinder) service).getService();
         startPlayingSong();
     }
 

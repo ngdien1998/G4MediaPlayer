@@ -2,7 +2,9 @@ package vn.edu.hcmute.mp.g4mediaplayer.api.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Song {
+import java.io.Serializable;
+
+public class Song implements Serializable {
 
     @SerializedName("id")
     private int id;
@@ -24,6 +26,9 @@ public class Song {
 
     @SerializedName("idUserUpload")
     private String idUserUpload;
+
+    @SerializedName("image")
+    private String image;
 
     private String url;
 
@@ -92,5 +97,13 @@ public class Song {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
