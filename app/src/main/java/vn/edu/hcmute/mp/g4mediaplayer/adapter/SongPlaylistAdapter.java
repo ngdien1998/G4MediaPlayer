@@ -87,7 +87,7 @@ public class SongPlaylistAdapter extends RecyclerView.Adapter<SongPlaylistAdapte
 
             songViewHolder.btnMore.setOnClickListener(view -> {
                 if (onMoreItemClick != null) {
-                    onMoreButtonClick(view, song);
+                    onMoreButtonClick(view, song, position);
                 }
             });
         } catch (Exception e) {
@@ -95,14 +95,18 @@ public class SongPlaylistAdapter extends RecyclerView.Adapter<SongPlaylistAdapte
         }
     }
 
-    private void onMoreButtonClick(View view, Song song) {
-        PopupMenu popupMenu = new PopupMenu(context, view);
-        popupMenu.setOnMenuItemClickListener(item -> {
-            onMoreItemClick.onMoreItemClick(view, song, item);
-            return true;
-        });
-        popupMenu.inflate(R.menu.menu_song_playlist_more);
-        popupMenu.show();
+    private void onMoreButtonClick(View view, Song song, int position) {
+        try {
+            PopupMenu popupMenu = new PopupMenu(context, view);
+            popupMenu.setOnMenuItemClickListener(item -> {
+                onMoreItemClick.onMoreItemClick(view, song, position, item);
+                return true;
+            });
+            popupMenu.inflate(R.menu.menu_song_more);
+            popupMenu.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -115,7 +119,7 @@ public class SongPlaylistAdapter extends RecyclerView.Adapter<SongPlaylistAdapte
     }
 
     public interface OnMoreItemClickListener {
-        void onMoreItemClick(View view, Song song, MenuItem item);
+        void onMoreItemClick(View view, Song song, int position, MenuItem item);
     }
 
     class SongViewHolder extends RecyclerView.ViewHolder {

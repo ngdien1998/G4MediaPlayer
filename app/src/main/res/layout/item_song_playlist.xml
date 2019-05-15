@@ -67,8 +67,8 @@
 
                 <ImageButton
                     android:id="@+id/btn_more"
+                    android:background="@android:color/transparent"
                     android:layout_width="wrap_content"
-                    android:background="?android:selectableItemBackgroundBorderless"
                     android:contentDescription="@string/btn_more_desc"
                     android:src="@drawable/ic_more_vert"
                     android:tint="@color/grey_60"
