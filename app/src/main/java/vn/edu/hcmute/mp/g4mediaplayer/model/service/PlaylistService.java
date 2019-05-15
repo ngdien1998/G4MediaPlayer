@@ -25,30 +25,32 @@ public class PlaylistService extends SqliteHelper implements ServiceRepository<P
     @Override
     public ArrayList<PlayList> getAll() {
         ArrayList<PlayList> playLists = new ArrayList<>();
+            try {
+                String query = "SELECT * FROM Playlist";
+                Cursor cursor = database.rawQuery(query, null);
+                PlayList playList;
+                while (cursor.moveToNext()) {
+                    playList = new PlayList();
+                    playList.setId(cursor.getString(0));
+                    playList.setName(cursor.getString(1));
 
-            String query = "SELECT * FROM Playlist";
-            Cursor cursor = database.rawQuery(query, null);
-            PlayList playList;
-            while (cursor.moveToNext()) {
-                playList = new PlayList();
-                playList.setId(cursor.getString(0));
-                playList.setName(cursor.getString(1));
 
+                    Date date = null;
+                    try {
+                        date = new SimpleDateFormat("dd/MM/yyyy").parse(cursor.getString(2));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
 
-                Date date = null;
-                try {
-                    date = new SimpleDateFormat("dd/MM/yyyy").parse(cursor.getString(2));
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                    playList.setCreatedDate(date);
+                    playList.setImage(cursor.getBlob(3));
+
+                    playLists.add(playList);
                 }
 
-                playList.setCreatedDate(date);
-                playList.setImage(cursor.getBlob(3));
-
-                playLists.add(playList);
+                cursor.close();
+            } catch (Exception ignored) {
             }
-
-            cursor.close();
 
         return playLists;
     }

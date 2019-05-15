@@ -3,6 +3,8 @@ package vn.edu.hcmute.mp.g4mediaplayer.fragment;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,6 +13,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,9 +27,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.util.Strings;
+import android.widget.EditText;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -44,9 +49,14 @@ import vn.edu.hcmute.mp.g4mediaplayer.model.service.SongService;
 
 public class SongsFragment extends Fragment {
 
+    private EditText edtTitle;
+    private TextInputLayout tilTitle;
     private ArrayList<Song> songs;
     private  ArrayList<PlayList> playLists;
     private PlaylistService playlistService;
+    SongService songService;
+    SongAdapter adapter;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,8 +69,9 @@ public class SongsFragment extends Fragment {
         try {
             //Get song
             SongService songService = new SongService(getContext());
+            songService = new SongService(getContext());
             songs = songService.getAll();
-            SongAdapter adapter = new SongAdapter(getContext(), songs);
+            adapter = new SongAdapter(getContext(), songs);
             rclSong.setAdapter(adapter);
 
             //Get Playlist
@@ -99,8 +110,46 @@ public class SongsFragment extends Fragment {
             case R.id.action_queue:
 
                 break;
-            case R.id.action_delete:
+            case R.id.action_rename:
+                LayoutInflater inflater = getLayoutInflater();
 
+                @SuppressLint("InflateParams")
+                View enterTitleDialog = inflater.inflate(R.layout.layout_dialog, null);
+
+                tilTitle = enterTitleDialog.findViewById(R.id.tilTitle);
+                edtTitle = enterTitleDialog.findViewById(R.id.edtTitle);
+                edtTitle.setText(song.getName());
+
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
+                dialogBuilder.setTitle("Enter playlist's name");
+                dialogBuilder.setView(enterTitleDialog);
+                dialogBuilder.setCancelable(true);
+                dialogBuilder.setNegativeButton("Cancel", ((dialog, which) -> dialog.cancel()));
+                dialogBuilder.setPositiveButton("Save", (dialog, which) -> {
+                    Song newsong = new Song();
+                    newsong.setName(edtTitle.getText().toString());
+                    songService.edit(song, newsong);
+
+                    songs.clear();
+                    songs.addAll(songService.getAll());
+                    adapter.notifyDataSetChanged();
+                });
+
+                dialogBuilder.show();
+                break;
+            case R.id.action_delete:
+                AlertDialog.Builder confirmDialog = new AlertDialog.Builder(getContext());
+                confirmDialog.setTitle("Do you want to delete this song?");
+                confirmDialog.setMessage("Delete " + song.getName());
+                confirmDialog.setPositiveButton("Yes", (dialog, which) -> {
+                    songService.delete(song.getId());
+
+                    songs.clear();
+                    songs.addAll(songService.getAll());
+                    adapter.notifyDataSetChanged();
+                });
+                confirmDialog.setNegativeButton("No", (dialog, which) -> dialog.cancel());
+                confirmDialog.show();
                 break;
         }
     }

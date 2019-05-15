@@ -25,6 +25,8 @@ public class Song {
     @SerializedName("idUserUpload")
     private String idUserUpload;
 
+    private String url;
+
     public Song() {
     }
 
@@ -82,5 +84,13 @@ public class Song {
 
     public void setIdUserUpload(String idUserUpload) {
         this.idUserUpload = idUserUpload;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

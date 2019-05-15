@@ -20,13 +20,11 @@ import java.util.Locale;
 
 import vn.edu.hcmute.mp.g4mediaplayer.R;
 import vn.edu.hcmute.mp.g4mediaplayer.common.Consts;
-import vn.edu.hcmute.mp.g4mediaplayer.model.entity.Song;
-import vn.edu.hcmute.mp.g4mediaplayer.model.service.ArtistService;
+import vn.edu.hcmute.mp.g4mediaplayer.api.model.Song;
 import vn.edu.hcmute.mp.g4mediaplayer.service.PlaySongService;
 
-public class PlayCenterActivity extends AppCompatActivity implements ServiceConnection {
+public class OnlinePlayingCenterActivity extends AppCompatActivity implements ServiceConnection {
 
-    private ArtistService artistService;
     public static PlaySongService service;
     private final SimpleDateFormat timeFormat = new SimpleDateFormat("mm:ss", Locale.getDefault());
 
@@ -46,12 +44,6 @@ public class PlayCenterActivity extends AppCompatActivity implements ServiceConn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_center);
 
-        try {
-            artistService = new ArtistService(getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         mapControls();
         addEvents();
 
@@ -61,7 +53,7 @@ public class PlayCenterActivity extends AppCompatActivity implements ServiceConn
     }
 
     private void setupService() {
-        serviceIntent = new Intent(PlayCenterActivity.this, PlaySongService.class);
+        serviceIntent = new Intent(OnlinePlayingCenterActivity.this, PlaySongService.class);
         serviceIntent.putExtra(Consts.SONGS_EXTRA, songs);
         serviceIntent.putExtra(Consts.SONG_EXTRA, currentSong);
         serviceIntent.putExtra(Consts.SONG_POSITION_EXTRA, currentSongPosition);
@@ -191,7 +183,7 @@ public class PlayCenterActivity extends AppCompatActivity implements ServiceConn
 
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
-        PlayCenterActivity.service = ((PlaySongService.LocalBinder) service).getService();
+        OnlinePlayingCenterActivity.service = ((PlaySongService.LocalBinder) service).getService();
         startPlayingSong();
     }
 
