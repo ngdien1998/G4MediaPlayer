@@ -48,6 +48,7 @@
         <service
             android:name=".service.PlaySongService"
             android:enabled="true" />
+        <service android:name=".service.OnlinePlaySongService" />
 
         <receiver android:name=".notification.NotificationReceiver">
             <intent-filter>
