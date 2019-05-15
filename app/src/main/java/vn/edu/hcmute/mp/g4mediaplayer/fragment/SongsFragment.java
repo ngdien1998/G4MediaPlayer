@@ -158,7 +158,6 @@ public class SongsFragment extends Fragment {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         dialogBuilder.setTitle("Playlist");
-        dialogBuilder.setMessage("");
         dialogBuilder.setItems(ListName, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
                 playlistService.add(playLists.get(item).getId(),song.getId());
@@ -166,17 +165,6 @@ public class SongsFragment extends Fragment {
         }
         });
 
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-
-        View view = inflater.inflate(R.layout.item_playlist_menu, null);
-        ListView lvPlayList = view.findViewById(R.id.lv_play_list);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, PlaylistName);
-        lvPlayList.setAdapter(adapter);
-        lvPlayList.setOnItemClickListener((parent, view1, position, id) -> {
-
-        });
-
-        dialogBuilder.setView(view);
         //Create alert dialog object via builder
         AlertDialog alertDialogObject = dialogBuilder.create();
         //Show the dialog
