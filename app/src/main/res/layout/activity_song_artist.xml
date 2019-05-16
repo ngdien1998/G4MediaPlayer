@@ -12,7 +12,7 @@
         android:id="@+id/imgView_Artist"
         android:layout_width="match_parent"
         android:layout_height="280dp"
-        tools:src="@drawable/album" />
+        android:src="@drawable/album" />
 
     <TextView
         android:gravity="center"
@@ -33,5 +33,17 @@
         android:id="@+id/rcl_song_Artist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add_playlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/ic_play_arrow_black_24dp"
+        android:tint="#FFF"
+        app:fabSize="normal"
+        app:layout_anchor="@+id/rcl_playlist"
+        app:layout_anchorGravity="bottom|right|end" />
 
 </LinearLayout>

@@ -98,7 +98,7 @@ public class SongArtistAdapter extends RecyclerView.Adapter<SongArtistAdapter.So
     private void onMoreButtonClick(View view, Song song) {
         PopupMenu popupMenu = new PopupMenu(context, view);
         popupMenu.setOnMenuItemClickListener(item -> {
-            onMoreItemClick.onMoreItemClick(view, song, item);
+         //   onMoreItemClick.onMoreItemClick(view, song, item);
             return true;
         });
         popupMenu.inflate(R.menu.menu_song_playlist_more);
