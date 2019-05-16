@@ -172,7 +172,7 @@ public class PlayCenterActivity extends AppCompatActivity implements ServiceConn
         currentSong = (Song) intent.getSerializableExtra(Consts.SONG_EXTRA);
         currentSongPosition = intent.getIntExtra(Consts.SONG_POSITION_EXTRA, 0);
 
-        setDisplayForCurrentSong();
+        //setDisplayForCurrentSong();
     }
 
     private void setDisplayForCurrentSong() {

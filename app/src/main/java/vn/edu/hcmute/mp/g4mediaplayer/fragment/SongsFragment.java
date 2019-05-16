@@ -13,11 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import vn.edu.hcmute.mp.g4mediaplayer.R;
 import vn.edu.hcmute.mp.g4mediaplayer.activity.PlayCenterActivity;
@@ -33,6 +35,10 @@ public class SongsFragment extends Fragment {
     private ArrayList<Song> songs;
     private  ArrayList<PlayList> playLists;
     private PlaylistService playlistService;
+    SongService songService;
+
+    SongAdapter adapter;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,15 +50,14 @@ public class SongsFragment extends Fragment {
 
         try {
             //Get song
-            SongService songService = new SongService(getContext());
+            songService = new SongService(getContext());
             songs = songService.getAll();
-            SongAdapter adapter = new SongAdapter(getContext(), songs);
+            adapter = new SongAdapter(getContext(), songs);
             rclSong.setAdapter(adapter);
 
             //Get Playlist
             playlistService = new PlaylistService(getContext());
             playLists = playlistService.getAll();
-
 
             // control buttotn
             adapter.setOnItemClick(this::adapterSong_itemClick);
@@ -86,9 +91,51 @@ public class SongsFragment extends Fragment {
 
                 break;
             case R.id.action_delete:
-
+                doDelete(song);
+                break;
+            case R.id.action_rename:
+                doRename(song);
                 break;
         }
+    }
+
+    private void doDelete(Song song) {
+        AlertDialog.Builder confirmDelete = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
+        confirmDelete.setTitle("Delete song");
+        confirmDelete.setMessage("Are you sure to delete " + song.getName() + "?");
+        confirmDelete.setPositiveButton("Yes, delete it!", (dialog, which) -> {
+            songService.delete(song.getId());
+
+            songs.clear();
+            songs.addAll(songService.getAll());
+            adapter.notifyDataSetChanged();
+        });
+        confirmDelete.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+        confirmDelete.show();
+    }
+
+    private void doRename(Song song) {
+        AlertDialog.Builder renameDialog = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
+        renameDialog.setTitle("Rename song");
+        renameDialog.setMessage("Enter new name of " + song.getName());
+
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View view = inflater.inflate(R.layout.layout_dialog, null);
+        EditText edtSongName = view.findViewById(R.id.edtTitle);
+        edtSongName.setText(song.getName());
+
+        renameDialog.setView(view);
+        renameDialog.setPositiveButton("Save", (dialog, which) -> {
+            Song newSong = new Song();
+            song.setName(edtSongName.getText().toString());
+
+            songService.edit(song, newSong);
+
+            songs.clear();
+            songs.addAll(songService.getAll());
+            adapter.notifyDataSetChanged();
+        });
+        renameDialog.show();
     }
 
     private void showPopup(Song song) {
