@@ -41,14 +41,14 @@ public class ScanSongService extends SqliteHelper {
                     if (file.isDirectory()) {
                         scanAndSaveInDirectory(file);
                     } else if (file.getName().endsWith(MP3_EXT)) {
-                        extractAndSaveFrom(file.getPath());
+                        extractAndSaveFrom(file.getPath(), false);
                     }
                 }
             }
         }
     }
 
-    private void extractAndSaveFrom(String source) {
+    public void extractAndSaveFrom(String source, boolean isDownloaded) {
         retriever.setDataSource(source);
 
         String query;
@@ -129,6 +129,11 @@ public class ScanSongService extends SqliteHelper {
             values.put("Bitrate", bitrate);
             values.put("Image", embeddedPicture);
             values.put("FilePath", filePath);
+            if (isDownloaded) {
+                values.put("Downloaded", 1);
+            } else {
+                values.put("Downloaded", 0);
+            }
 
             database.insert("Song", null, values);
 
@@ -167,7 +172,7 @@ public class ScanSongService extends SqliteHelper {
                 if (file.isDirectory()) {
                     scanAndSaveInDirectory(file);
                 } else if (file.getName().endsWith(MP3_EXT)) {
-                    extractAndSaveFrom(file.getPath());
+                    extractAndSaveFrom(file.getPath(), false);
                 }
             }
         }

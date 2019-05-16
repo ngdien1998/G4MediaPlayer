@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +27,7 @@ import vn.edu.hcmute.mp.g4mediaplayer.model.entity.Song;
 import vn.edu.hcmute.mp.g4mediaplayer.model.service.PlaylistService;
 import vn.edu.hcmute.mp.g4mediaplayer.model.service.SongService;
 
-public class SongsFragment extends Fragment {
+public class DownloadedFragment extends Fragment {
 
     private ArrayList<Song> songs;
     private  ArrayList<PlayList> playLists;
@@ -39,7 +38,7 @@ public class SongsFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_songs, container, false);
+        View root = inflater.inflate(R.layout.fragment_downloaded, container, false);
 
         RecyclerView rclSong = root.findViewById(R.id.rcl_song_list);
         rclSong.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -48,7 +47,7 @@ public class SongsFragment extends Fragment {
         try {
             //Get song
             songService = new SongService(getContext());
-            songs = songService.getAll();
+            songs = songService.getDownloadedSongs();
             adapter = new SongAdapter(getContext(), songs);
             rclSong.setAdapter(adapter);
 
@@ -59,9 +58,8 @@ public class SongsFragment extends Fragment {
             // control buttotn
             adapter.setOnItemClick(this::adapterSong_itemClick);
             adapter.setOnMoreItemClick(this::adapterSong_itemMoreClick);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
 
         return root;
@@ -159,7 +157,7 @@ public class SongsFragment extends Fragment {
             public void onClick(DialogInterface dialog, int item) {
                 playlistService.add(playLists.get(item).getId(),song.getId());
                 int count  = playlistService.getSongNumber(playLists.get(item).getId());
-        }
+            }
         });
 
         //Create alert dialog object via builder
@@ -167,4 +165,5 @@ public class SongsFragment extends Fragment {
         //Show the dialog
         alertDialogObject.show();
     }
+
 }

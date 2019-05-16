@@ -25,6 +25,7 @@ abstract class SqliteHelper {
 
     private void processCopyDatabase() throws IOException {
         File dbFile = context.getDatabasePath(DB_NAME);
+        //dbFile.delete();
         if (!dbFile.exists()) {
             copyDatabaseFormAssets();
         }
