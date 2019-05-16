@@ -71,7 +71,9 @@ public class ArtistService extends SqliteHelper implements ServiceRepository<Art
     public ArrayList<Song> getAllSongOfArtist(int idArtist) {
         ArrayList<Song> songs = new ArrayList<>();
 
+        String id = String.valueOf(idArtist);
 //        String query = "select * from Song_Artist, Song where ID_Artist="+idArtist+" and Song.ID=Song_Artist.ID_Song";
+//        String query = "SELECT * FROM Song, Song_Artist WHERE ID = ID_Song AND ID_Artist = ?";
         String query = "select * from Song";
         Cursor cursor = database.rawQuery(query, null);
         Song song;

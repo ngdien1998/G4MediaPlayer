@@ -11,38 +11,40 @@ import java.util.ArrayList;
 
 import vn.edu.hcmute.mp.g4mediaplayer.R;
 import vn.edu.hcmute.mp.g4mediaplayer.adapter.SongAdapter;
-import vn.edu.hcmute.mp.g4mediaplayer.model.entity.Artist;
+import vn.edu.hcmute.mp.g4mediaplayer.adapter.SongArtistAdapter;
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.Song;
 import vn.edu.hcmute.mp.g4mediaplayer.model.service.ArtistService;
 
-public class SongOfArtistsActivity extends AppCompatActivity {
+public class SongArtistActivity extends AppCompatActivity {
 
     private TextView txtNameOfArtist;
     private RecyclerView rVListSongOfArtist;
+    private ArtistService service;
+    private ArrayList<Song> songs;
+    private SongArtistAdapter songArtistAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_song_of_artists);
+        setContentView(R.layout.activity_song_artist);
         txtNameOfArtist = this.findViewById(R.id.txtName_Artists);
-        rVListSongOfArtist = this.findViewById(R.id.rcl_song_list_artist);
+        rVListSongOfArtist = this.findViewById(R.id.rcl_song_Artist);
         rVListSongOfArtist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         rVListSongOfArtist.setHasFixedSize(true);
 
         Intent intent = this.getIntent();
-
         int idArtist = intent.getIntExtra("idArtist", 1);
         String nameArtist = intent.getStringExtra("nameArtist");
 
         txtNameOfArtist.setText(nameArtist);
 
         try{
-            ArtistService service = new ArtistService(getApplicationContext());
-            ArrayList<Song> songs = service.getAllSongOfArtist(idArtist);
+            service = new ArtistService(getApplicationContext());
+            songs = service.getAllSongOfArtist(idArtist);
 
-            SongAdapter songAdapter = new SongAdapter(getApplicationContext(), songs);
-//            songAdapter.setOnItemClickListener(this::adapterOnItemClick);
-            rVListSongOfArtist.setAdapter(songAdapter);
+            songArtistAdapter = new SongArtistAdapter(getApplicationContext(), songs);
+
+            rVListSongOfArtist.setAdapter(songArtistAdapter);
         }catch (Exception e){
             e.printStackTrace();
         }
