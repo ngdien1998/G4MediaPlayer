@@ -112,27 +112,31 @@ public class SongsFragment extends Fragment {
     }
 
     private void doRename(Song song) {
-        AlertDialog.Builder renameDialog = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
-        renameDialog.setTitle("Rename song");
-        renameDialog.setMessage("Enter new name of " + song.getName());
+        try {
+            AlertDialog.Builder renameDialog = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
+            renameDialog.setTitle("Rename song");
+            renameDialog.setMessage("Enter new name of " + song.getName());
 
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View view = inflater.inflate(R.layout.layout_dialog, null);
-        EditText edtSongName = view.findViewById(R.id.edtTitle);
-        edtSongName.setText(song.getName());
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            View view = inflater.inflate(R.layout.layout_dialog, null);
+            EditText edtSongName = view.findViewById(R.id.edtTitle);
+            edtSongName.setText(song.getName());
 
-        renameDialog.setView(view);
-        renameDialog.setPositiveButton("Save", (dialog, which) -> {
-            Song newSong = new Song();
-            song.setName(edtSongName.getText().toString());
+            renameDialog.setView(view);
+            renameDialog.setPositiveButton("Save", (dialog, which) -> {
+                Song newSong = new Song();
+                newSong.setName(edtSongName.getText().toString());
 
-            songService.edit(song, newSong);
+                songService.edit(song, newSong);
 
-            songs.clear();
-            songs.addAll(songService.getAll());
-            adapter.notifyDataSetChanged();
-        });
-        renameDialog.show();
+                songs.clear();
+                songs.addAll(songService.getAll());
+                adapter.notifyDataSetChanged();
+            });
+            renameDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void showPopup(Song song) {

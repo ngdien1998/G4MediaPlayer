@@ -55,6 +55,7 @@
         android:gravity="center_vertical">
 
         <ImageButton
+            android:background="@android:color/transparent"
             android:layout_weight="1"
             android:id="@+id/btn_repeat"
             android:tint="@color/grey_90"
@@ -63,6 +64,7 @@
             android:layout_width="wrap_content" />
 
         <ImageButton
+            android:background="@android:color/transparent"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:id="@+id/btn_prev"
@@ -71,6 +73,7 @@
             android:src="@drawable/ic_skip_previous" />
 
         <ImageButton
+            android:background="@android:color/transparent"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:id="@+id/btn_play"
@@ -79,6 +82,7 @@
             android:src="@drawable/ic_pause" />
 
         <ImageButton
+            android:background="@android:color/transparent"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:id="@+id/btn_next"
@@ -87,6 +91,7 @@
             android:src="@drawable/ic_skip_next" />
 
         <ImageButton
+            android:background="@android:color/transparent"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"

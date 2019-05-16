@@ -172,7 +172,7 @@ public class PlayCenterActivity extends AppCompatActivity implements ServiceConn
         currentSong = (Song) intent.getSerializableExtra(Consts.SONG_EXTRA);
         currentSongPosition = intent.getIntExtra(Consts.SONG_POSITION_EXTRA, 0);
 
-        //iiiiiiiiiiiiiiiiiiiiisetDisplayForCurrentSong();
+        //setDisplayForCurrentSong();
     }
 
     private void setDisplayForCurrentSong() {
@@ -203,6 +203,8 @@ public class PlayCenterActivity extends AppCompatActivity implements ServiceConn
         skbSong.setMax(totalDuration);
         txtCurrentSongTime.setText(timeFormat.format(0));
         txtTotalSongTime.setText(timeFormat.format(totalDuration));
+        txtSongName.setText(currentSong.getName());
+        txtArtistName.setText(artistService.getSongArtist(currentSong.getId()));
 
         service.setOnSeekSong(this::serviceOnSeekSong);
         service.setOnPlayingSongChanged(this::serviceOnPlayingSongChanged);

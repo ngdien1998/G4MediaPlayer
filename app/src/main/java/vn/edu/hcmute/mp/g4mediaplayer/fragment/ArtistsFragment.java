@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import vn.edu.hcmute.mp.g4mediaplayer.R;
-import vn.edu.hcmute.mp.g4mediaplayer.activity.SongOfArtistsActivity;
+import vn.edu.hcmute.mp.g4mediaplayer.activity.SongArtistActivity;
 import vn.edu.hcmute.mp.g4mediaplayer.adapter.ArtistsAdapter;
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.Artist;
 import vn.edu.hcmute.mp.g4mediaplayer.model.service.ArtistService;
@@ -50,7 +50,7 @@ public class ArtistsFragment extends Fragment {
     }
 
     private void adapterOnItemClick(View view, Artist artist, int i) {
-        Intent intentArtist = new Intent(getContext(),SongOfArtistsActivity.class);
+        Intent intentArtist = new Intent(getContext(), SongArtistActivity.class);
 
         intentArtist.putExtra("idArtist", artist.getId());
         intentArtist.putExtra("nameArtist", artist.getName());

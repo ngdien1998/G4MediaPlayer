@@ -22,33 +22,33 @@ import vn.edu.hcmute.mp.g4mediaplayer.R;
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.Song;
 import vn.edu.hcmute.mp.g4mediaplayer.model.service.ArtistService;
 
-public class SongPlaylistAdapter extends RecyclerView.Adapter<SongPlaylistAdapter.SongViewHolder> {
+public class SongArtistAdapter extends RecyclerView.Adapter<SongArtistAdapter.SongViewHolder> {
 
     private Context context;
     private ArrayList<Song> songs;
-    private OnItemClickListener onItemClick;
-    private OnMoreItemClickListener onMoreItemClick;
+    private SongPlaylistAdapter.OnItemClickListener onItemClick;
+    private SongPlaylistAdapter.OnMoreItemClickListener onMoreItemClick;
     private ArtistService artistService;
     LayoutInflater inflater;
 
-    public SongPlaylistAdapter(Context context, ArrayList<Song> songs) throws IOException {
+    public SongArtistAdapter(Context context, ArrayList<Song> songs) throws IOException {
         this.context = context;
         this.songs = songs;
         artistService = new ArtistService(context);
         inflater = LayoutInflater.from(context);
     }
 
-    public void setOnItemClick(OnItemClickListener onItemClick) {
+
+    public void setOnItemClick(SongPlaylistAdapter.OnItemClickListener onItemClick) {
         this.onItemClick = onItemClick;
     }
 
-    public void setOnMoreItemClick(OnMoreItemClickListener onMoreItemClick) {
+    public void setOnMoreItemClick(SongPlaylistAdapter.OnMoreItemClickListener onMoreItemClick) {
         this.onMoreItemClick = onMoreItemClick;
     }
-
     @NonNull
     @Override
-    public SongViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+    public SongViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         try {
             View view = inflater.inflate(R.layout.item_song_playlist, viewGroup, false);
             return new SongViewHolder(view);
@@ -59,9 +59,9 @@ public class SongPlaylistAdapter extends RecyclerView.Adapter<SongPlaylistAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SongViewHolder songViewHolder, int position) {
+    public void onBindViewHolder(@NonNull SongViewHolder songViewHolder, int i) {
         try {
-            Song song = songs.get(position);
+            Song song = songs.get(i);
 
             byte[] songImg = song.getImage();
             if (songImg != null) {
@@ -81,13 +81,13 @@ public class SongPlaylistAdapter extends RecyclerView.Adapter<SongPlaylistAdapte
 
             songViewHolder.lyt_parent.setOnClickListener(view -> {
                 if (onItemClick != null) {
-                    onItemClick.onItemClick(view, song, position);
+                    onItemClick.onItemClick(view, song, i);
                 }
             });
 
             songViewHolder.btnMore.setOnClickListener(view -> {
                 if (onMoreItemClick != null) {
-                    onMoreButtonClick(view, song, position);
+                    onMoreButtonClick(view, song);
                 }
             });
         } catch (Exception e) {
@@ -95,18 +95,14 @@ public class SongPlaylistAdapter extends RecyclerView.Adapter<SongPlaylistAdapte
         }
     }
 
-    private void onMoreButtonClick(View view, Song song, int position) {
-        try {
-            PopupMenu popupMenu = new PopupMenu(context, view);
-            popupMenu.setOnMenuItemClickListener(item -> {
-                onMoreItemClick.onMoreItemClick(view, song, position, item);
-                return true;
-            });
-            popupMenu.inflate(R.menu.menu_song_more);
-            popupMenu.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void onMoreButtonClick(View view, Song song) {
+        PopupMenu popupMenu = new PopupMenu(context, view);
+        popupMenu.setOnMenuItemClickListener(item -> {
+         //   onMoreItemClick.onMoreItemClick(view, song, item);
+            return true;
+        });
+        popupMenu.inflate(R.menu.menu_song_playlist_more);
+        popupMenu.show();
     }
 
     @Override
@@ -119,10 +115,10 @@ public class SongPlaylistAdapter extends RecyclerView.Adapter<SongPlaylistAdapte
     }
 
     public interface OnMoreItemClickListener {
-        void onMoreItemClick(View view, Song song, int position, MenuItem item);
+        void onMoreItemClick(View view, Song song, MenuItem item);
     }
 
-    static class SongViewHolder extends RecyclerView.ViewHolder {
+    class SongViewHolder extends RecyclerView.ViewHolder {
 
         CircularImageView imgSong;
         TextView txtName;

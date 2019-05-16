@@ -194,6 +194,8 @@ public class OnlinePlayingCenterActivity extends AppCompatActivity implements Se
         skbSong.setMax(totalDuration);
         txtCurrentSongTime.setText(timeFormat.format(0));
         txtTotalSongTime.setText(timeFormat.format(totalDuration));
+        txtSongName.setText(currentSong.getName());
+        txtArtistName.setText(currentSong.getArtist());
 
         service.setOnSeekSong(this::serviceOnSeekSong);
         service.setOnPlayingSongChanged(this::serviceOnPlayingSongChanged);
