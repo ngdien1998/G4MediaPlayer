@@ -1,18 +1,14 @@
 package vn.edu.hcmute.mp.g4mediaplayer.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -20,13 +16,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import vn.edu.hcmute.mp.g4mediaplayer.R;
-import vn.edu.hcmute.mp.g4mediaplayer.adapter.SongAdapter;
 import vn.edu.hcmute.mp.g4mediaplayer.adapter.SongPlaylistAdapter;
 import vn.edu.hcmute.mp.g4mediaplayer.common.Consts;
-import vn.edu.hcmute.mp.g4mediaplayer.common.Helper;
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.PlayList;
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.Song;
-import vn.edu.hcmute.mp.g4mediaplayer.model.service.ArtistService;
 import vn.edu.hcmute.mp.g4mediaplayer.model.service.PlaylistService;
 
 public class PlaylistSongActivity extends AppCompatActivity {
@@ -34,7 +27,7 @@ public class PlaylistSongActivity extends AppCompatActivity {
     private RecyclerView rclSongPlaylist;
     private ArrayList<Song> songs;
     private SongPlaylistAdapter adapter;
-    private  PlaylistService  service;
+    private PlaylistService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,16 +50,15 @@ public class PlaylistSongActivity extends AppCompatActivity {
             adapter = new SongPlaylistAdapter(getApplicationContext(), songs);
 
             adapter.setOnItemClick(this::adapterOnItemClick);
-            fabAddPlaylist.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent playIntent = new Intent(getApplicationContext(), PlayCenterActivity.class);
-                    playIntent.putExtra(Consts.SONGS_EXTRA, songs);
-                    playIntent.putExtra(Consts.SONG_EXTRA, songs.get(0));
-                    playIntent.putExtra(Consts.SONG_POSITION_EXTRA, 0);
+            adapter.setOnMoreItemClick(this::btnMoreOnClick);
 
-                    startActivity(playIntent);
-                }
+            fabAddPlaylist.setOnClickListener(v -> {
+                Intent playIntent = new Intent(getApplicationContext(), PlayCenterActivity.class);
+                playIntent.putExtra(Consts.SONGS_EXTRA, songs);
+                playIntent.putExtra(Consts.SONG_EXTRA, songs.get(0));
+                playIntent.putExtra(Consts.SONG_POSITION_EXTRA, 0);
+
+                startActivity(playIntent);
             });
 
             rclSongPlaylist.setAdapter(adapter);
@@ -76,7 +68,7 @@ public class PlaylistSongActivity extends AppCompatActivity {
         }
     }
 
-    private void adapterSong_itemMoreClick(View view, Song song, int i, MenuItem menuItem) {
+    private void btnMoreOnClick(View view, Song song, int postion, MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.action_play:
                 playListes();
@@ -87,8 +79,6 @@ public class PlaylistSongActivity extends AppCompatActivity {
 
         }
     }
-
-
 
 
     private void playListes() {

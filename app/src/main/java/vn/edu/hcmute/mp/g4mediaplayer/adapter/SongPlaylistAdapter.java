@@ -98,11 +98,11 @@ public class SongPlaylistAdapter extends RecyclerView.Adapter<SongPlaylistAdapte
     private void onMoreButtonClick(View view, Song song, int position) {
         try {
             PopupMenu popupMenu = new PopupMenu(context, view);
+            popupMenu.inflate(R.menu.menu_more_playlist);
             popupMenu.setOnMenuItemClickListener(item -> {
                 onMoreItemClick.onMoreItemClick(view, song, position, item);
                 return true;
             });
-            popupMenu.inflate(R.menu.menu_song_more);
             popupMenu.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,16 +132,12 @@ public class SongPlaylistAdapter extends RecyclerView.Adapter<SongPlaylistAdapte
 
         SongViewHolder(@NonNull View itemView) {
             super(itemView);
+            imgSong = itemView.findViewById(R.id.img_song);
+            txtName = itemView.findViewById(R.id.txt_song_name);
+            txtArtist = itemView.findViewById(R.id.txt_artist);
+            btnMore = itemView.findViewById(R.id.btnmore);
+            lyt_parent = itemView.findViewById(R.id.lyt_parent);
 
-            try {
-                imgSong = itemView.findViewById(R.id.img_song);
-                txtName = itemView.findViewById(R.id.txt_song_name);
-                txtArtist = itemView.findViewById(R.id.txt_artist);
-                btnMore = itemView.findViewById(R.id.btn_more);
-                lyt_parent = itemView.findViewById(R.id.lyt_parent);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 }

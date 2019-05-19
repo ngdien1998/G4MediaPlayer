@@ -82,9 +82,6 @@ public class DownloadedFragment extends Fragment {
             case R.id.action_playlist:
                 showPopup(song);
                 break;
-            case R.id.action_queue:
-
-                break;
             case R.id.action_delete:
                 doDelete(song);
                 break;
