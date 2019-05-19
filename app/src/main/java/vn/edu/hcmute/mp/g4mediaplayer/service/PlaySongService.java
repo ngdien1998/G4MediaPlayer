@@ -90,15 +90,33 @@ public class PlaySongService extends Service implements MusicControlClient {
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
 
+        Song song = (Song) intent.getSerializableExtra(Consts.SONG_EXTRA);
+
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                if (!song.getId().equals(currentSong.getId())) {
+                    releasePlayer();
+                    playNew(intent, song);
+                }
+            }
+        } else {
+            playNew(intent, song);
+        }
+        return START_NOT_STICKY;
+    }
+
+    private void playNew(Intent intent, Song song) {
         // Get data
         songs = (ArrayList<Song>) intent.getSerializableExtra(Consts.SONGS_EXTRA);
-        currentSong = (Song) intent.getSerializableExtra(Consts.SONG_EXTRA);
+        currentSong = song;
         currentSongPosition = intent.getIntExtra(Consts.SONG_POSITION_EXTRA, 0);
 
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(currentSong.getFilePath()));
-        mediaPlayer.setOnCompletionListener(this::mediaPlayerOnCompletion);
-
-        return START_NOT_STICKY;
+        try {
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(currentSong.getFilePath()));
+            mediaPlayer.setOnCompletionListener(this::mediaPlayerOnCompletion);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void mediaPlayerOnCompletion(MediaPlayer mediaPlayer) {

@@ -65,7 +65,7 @@ public class SongService extends SqliteHelper implements ServiceRepository<Song>
         database.execSQL(query, new String[]{newEntity.getName(),oldEntity.getId()});
     }
 
-    public ArrayList<Song> getDownloadedSongs() {
+    public ArrayList<Song>  getDownloadedSongs() {
         ArrayList<Song> songs = new ArrayList<>();
 
         String query = "SELECT * FROM Song WHERE Downloaded = 1";

@@ -1,21 +1,20 @@
 package vn.edu.hcmute.mp.g4mediaplayer.activity;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 import vn.edu.hcmute.mp.g4mediaplayer.R;
-import vn.edu.hcmute.mp.g4mediaplayer.adapter.SongAdapter;
 import vn.edu.hcmute.mp.g4mediaplayer.adapter.SongArtistAdapter;
 import vn.edu.hcmute.mp.g4mediaplayer.common.Consts;
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.Song;
@@ -26,23 +25,22 @@ public class SongArtistActivity extends AppCompatActivity {
     private TextView txtNameOfArtist;
     private RecyclerView rVListSongOfArtist;
     private ArtistService service;
+    private Button btnPlayAll;
+
     private ArrayList<Song> songs;
     private SongArtistAdapter songArtistAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_song_artist);
-        setContentView(R.layout.activity_playlist_song);
-        txtNameOfArtist = this.findViewById(R.id.txtName_Playlist);
-        rVListSongOfArtist = this.findViewById(R.id.rcl_song_Playlist);
+        setContentView(R.layout.activity_song_artist);
+        txtNameOfArtist = this.findViewById(R.id.txtName_Artists);
+        rVListSongOfArtist = this.findViewById(R.id.rcl_song_Artist);
         rVListSongOfArtist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         rVListSongOfArtist.setHasFixedSize(true);
 
-        FloatingActionButton fabAddPlaylist = findViewById(R.id.fab_add_playlist);
-
         Intent intent = this.getIntent();
-        int idArtist = intent.getIntExtra("idArtist", 1);
+        String idArtist = intent.getStringExtra("idArtist");
         String nameArtist = intent.getStringExtra("nameArtist");
 
         txtNameOfArtist.setText(nameArtist);
@@ -53,16 +51,14 @@ public class SongArtistActivity extends AppCompatActivity {
 
             songArtistAdapter = new SongArtistAdapter(getApplicationContext(), songs);
             songArtistAdapter.setOnItemClick(this::adapterOnItemClick);
-            fabAddPlaylist.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent playIntent = new Intent(getApplicationContext(), PlayCenterActivity.class);
-                    playIntent.putExtra(Consts.SONGS_EXTRA, songs);
-                    playIntent.putExtra(Consts.SONG_EXTRA, songs.get(0));
-                    playIntent.putExtra(Consts.SONG_POSITION_EXTRA, 0);
+            btnPlayAll = findViewById(R.id.btn_play_all);
+            btnPlayAll.setOnClickListener(v -> {
+                Intent playIntent = new Intent(getApplicationContext(), PlayCenterActivity.class);
+                playIntent.putExtra(Consts.SONGS_EXTRA, songs);
+                playIntent.putExtra(Consts.SONG_EXTRA, songs.get(0));
+                playIntent.putExtra(Consts.SONG_POSITION_EXTRA, 0);
 
-                    startActivity(playIntent);
-                }
+                startActivity(playIntent);
             });
 
             rVListSongOfArtist.setAdapter(songArtistAdapter);

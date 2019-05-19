@@ -4,14 +4,12 @@ package vn.edu.hcmute.mp.g4mediaplayer.model.service;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.widget.ListView;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import vn.edu.hcmute.mp.g4mediaplayer.model.entity.PlayList;
@@ -117,12 +115,16 @@ public class PlaylistService extends SqliteHelper implements ServiceRepository<P
 
     @Override
     public void add(PlayList playList) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.forLanguageTag("vi-VN"));
-        ContentValues values = new ContentValues();
-        values.put("ID",String.valueOf(System.currentTimeMillis()));
-        values.put("Name", playList.getName());
-        values.put("CreateDate",dateFormat.format(new Date()));
-        database.insert("PlayList",null,values);
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.forLanguageTag("vi-VN"));
+            ContentValues values = new ContentValues();
+            values.put("ID", String.valueOf(System.currentTimeMillis()));
+            values.put("Name", playList.getName());
+            values.put("CreateDate", dateFormat.format(new Date()));
+            database.insert("Playlist", null, values);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void add(String ID_Playlist, String ID_Song)

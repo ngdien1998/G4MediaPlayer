@@ -17,9 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SongArtistActivity"></activity>
+        <activity android:name=".activity.SongArtistActivity" />
         <activity android:name=".activity.PlaylistSongActivity" />
-        <activity android:name=".activity.PlayCenterActivity" />
+        <activity android:name=".activity.PlayCenterActivity" android:launchMode="singleTop" />
         <activity android:name=".activity.SearchResultsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -44,7 +44,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.OnlinePlayingCenterActivity" />
+        <activity android:name=".activity.OnlinePlayingCenterActivity" android:launchMode="singleTop" />
 
         <service
             android:name=".service.PlaySongService"

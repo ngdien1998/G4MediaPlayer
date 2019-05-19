@@ -142,7 +142,6 @@ public class ScanSongService extends SqliteHelper {
                 values.put("ID_Song", idSong);
                 values.put("ID_Artist", idArtist);
                 database.insert("Song_Artist", null, values);
-
             }
 
             if (idAlbum != null) {
