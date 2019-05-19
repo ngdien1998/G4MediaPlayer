@@ -37,7 +37,7 @@
                     android:id="@+id/img_song_small"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/photo_female_4"
+                    android:src="@drawable/ic_music_note_green"
                     app:civ_border="false"
                     app:civ_shadow="true"
                     app:civ_shadow_radius="0" />
@@ -57,7 +57,7 @@
                     android:id="@+id/txt_song_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Day Of The Dispair"
+                    android:text="Unknown Song"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textColor="@color/grey_90" />
 
@@ -65,7 +65,7 @@
                     android:id="@+id/txt_artist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="The Beat"
+                    android:text="Unknown Artist"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/grey_40" />
 

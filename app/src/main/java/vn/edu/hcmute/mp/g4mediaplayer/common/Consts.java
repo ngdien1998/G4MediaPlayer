@@ -12,4 +12,5 @@ public class Consts {
     public static final String MUSIC_IS_PLAYING = "IS_PLAYING_MUSIC";
     public static final String BUTTON_CLICKED_ID = "BUTTON_CLICKED_ID";
     public static final String PLAY_LIST = "PLAYLIST";
+    public static final String ACTION_RECEIVE_NOTIFICATION_COMMAND = "ACTION_RECEIVE_NOTIFICATION_COMMAND";
 }

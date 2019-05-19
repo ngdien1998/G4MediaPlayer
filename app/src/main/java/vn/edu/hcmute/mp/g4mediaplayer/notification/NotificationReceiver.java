@@ -3,32 +3,17 @@ package vn.edu.hcmute.mp.g4mediaplayer.notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 
-import vn.edu.hcmute.mp.g4mediaplayer.R;
-import vn.edu.hcmute.mp.g4mediaplayer.activity.PlayCenterActivity;
 import vn.edu.hcmute.mp.g4mediaplayer.common.Consts;
-import vn.edu.hcmute.mp.g4mediaplayer.service.PlaySongService;
 
 public class NotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Intent forwardIntent = new Intent(Consts.ACTION_RECEIVE_NOTIFICATION_COMMAND);
+        forwardIntent.putExtra(Consts.BUTTON_CLICKED_ID, intent.getIntExtra(Consts.BUTTON_CLICKED_ID, -1));
 
-        PlaySongService service = PlayCenterActivity.service;
-
-        int id = intent.getIntExtra(Consts.BUTTON_CLICKED_ID, -1);
-
-        switch (id) {
-            case R.id.btn_play:
-                service.pausePlayingSong();
-                break;
-            case R.id.btn_next:
-                service.playNextSong();
-                break;
-            case R.id.btn_prev:
-                service.playPreviousSong();
-                break;
-
-        }
+        LocalBroadcastManager.getInstance(context).sendBroadcast(forwardIntent);
     }
 }

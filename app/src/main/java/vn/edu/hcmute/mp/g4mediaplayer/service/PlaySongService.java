@@ -157,27 +157,11 @@ public class PlaySongService extends Service implements MusicControlClient {
 
     private void enableNotification() {
         try {
-            cancelNotification();
-
             notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             collapsedView = new RemoteViews(getPackageName(), R.layout.notification_collapsed);
             expandedView = new RemoteViews(getPackageName(), R.layout.notification_expanded);
 
-            String songNameText = "Playing " + currentSong.getName();
-            String artistText = artistService.getSongArtist(currentSong.getId());
-
-            expandedView.setTextViewText(R.id.txt_song_name, songNameText);
-            collapsedView.setTextViewText(R.id.txt_song_name, songNameText);
-            expandedView.setTextViewText(R.id.txt_artist, artistText);
-            collapsedView.setTextViewText(R.id.txt_artist, artistText);
-
-            byte[] bytesOfImage = currentSong.getImage();
-            if (bytesOfImage != null) {
-                Bitmap imageBitmap = BitmapFactory.decodeByteArray(bytesOfImage, 0, bytesOfImage.length);
-
-                expandedView.setImageViewBitmap(R.id.img_song, imageBitmap);
-                collapsedView.setImageViewBitmap(R.id.img_song, imageBitmap);
-            }
+            setNewSongForNewNotification();
 
             expandedView.setOnClickPendingIntent(R.id.btn_play, getClickableIntent(R.id.btn_play));
             expandedView.setOnClickPendingIntent(R.id.btn_repeat, getClickableIntent(R.id.btn_repeat));
@@ -196,6 +180,24 @@ public class PlaySongService extends Service implements MusicControlClient {
         }
     }
 
+    private void setNewSongForNewNotification() {
+        String songNameText = "Playing " + currentSong.getName();
+        String artistText = artistService.getSongArtist(currentSong.getId());
+
+        expandedView.setTextViewText(R.id.txt_song_name, songNameText);
+        collapsedView.setTextViewText(R.id.txt_song_name, songNameText);
+        expandedView.setTextViewText(R.id.txt_artist, artistText);
+        collapsedView.setTextViewText(R.id.txt_artist, artistText);
+
+        byte[] bytesOfImage = currentSong.getImage();
+        if (bytesOfImage != null) {
+            Bitmap imageBitmap = BitmapFactory.decodeByteArray(bytesOfImage, 0, bytesOfImage.length);
+
+            expandedView.setImageViewBitmap(R.id.img_song, imageBitmap);
+            collapsedView.setImageViewBitmap(R.id.img_song, imageBitmap);
+        }
+    }
+
     private void cancelNotification() {
         if (notificationManager != null) {
             notificationManager.cancel(NOTIFICATION_ID);
@@ -208,6 +210,9 @@ public class PlaySongService extends Service implements MusicControlClient {
             mediaPlayer.start();
             enableNotification();
 
+            if (expandedView != null) {
+                expandedView.setImageViewResource(R.id.img_song, R.drawable.ic_pause);
+            }
             seekHandler.postDelayed(playSongThread, 0);
         }
     }
@@ -216,6 +221,9 @@ public class PlaySongService extends Service implements MusicControlClient {
     public void pausePlayingSong() {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
+            if (expandedView != null) {
+                expandedView.setImageViewResource(R.id.img_song, R.drawable.ic_play);
+            }
         }
     }
 

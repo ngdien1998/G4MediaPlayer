@@ -1,12 +1,16 @@
 package vn.edu.hcmute.mp.g4mediaplayer.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
@@ -58,6 +62,31 @@ public class PlayCenterActivity extends AppCompatActivity implements ServiceConn
         getNavigatetedParameters();
 
         setupService();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int id = intent.getIntExtra(Consts.BUTTON_CLICKED_ID, -1);
+
+                switch (id) {
+                    case R.id.btn_play:
+                        btnPlayOnClick(null);
+                        break;
+                    case R.id.btn_next:
+                        btnNextOnClick(null);
+                        break;
+                    case R.id.btn_prev:
+                        btnPrevOnClick(null);
+                        break;
+                    case R.id.btn_shuffle:
+                        btnShufleOnClick(null);
+                        break;
+                    case R.id.btn_repeat:
+                        btnRepeatOnClick(null);
+                        break;
+                }
+            }
+        }, new IntentFilter(Consts.ACTION_RECEIVE_NOTIFICATION_COMMAND));
     }
 
     private void setupService() {
@@ -108,14 +137,13 @@ public class PlayCenterActivity extends AppCompatActivity implements ServiceConn
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-        btnNext.setOnClickListener(this::btnNextPrevOnClick);
+        btnNext.setOnClickListener(this::btnNextOnClick);
         btnPrev.setOnClickListener(this::btnPrevOnClick);
         btnRepeat.setOnClickListener(this::btnRepeatOnClick);
         btnShuffle.setOnClickListener(this::btnShufleOnClick);
     }
 
     private void btnShufleOnClick(View view) {
-        ImageButton btnShuffle = (ImageButton) view;
         if (service.isShufflePlaying()) {
             service.setSufflePlaying(false);
             btnShuffle.setImageResource(R.drawable.ic_shuffle_normal);
@@ -126,7 +154,6 @@ public class PlayCenterActivity extends AppCompatActivity implements ServiceConn
     }
 
     private void btnRepeatOnClick(View view) {
-        ImageButton btnRepeat = (ImageButton) view;
         if (service.isLoopingSong()) {
             service.setLoopingSong(false);
             btnRepeat.setImageResource(R.drawable.ic_repeat_normal);
@@ -143,7 +170,7 @@ public class PlayCenterActivity extends AppCompatActivity implements ServiceConn
         setDisplayForCurrentSong();
     }
 
-    private void btnNextPrevOnClick(View view) {
+    private void btnNextOnClick(View view) {
         currentSongPosition = service.playNextSong();
         currentSong = songs.get(currentSongPosition);
 
@@ -151,13 +178,12 @@ public class PlayCenterActivity extends AppCompatActivity implements ServiceConn
     }
 
     private void btnPlayOnClick(View view) {
-        ImageButton btnPlayPause = (ImageButton) view;
         if (service.isSongPlaying()) {
             service.pausePlayingSong();
-            btnPlayPause.setImageResource(R.drawable.ic_play);
+            btnPlay.setImageResource(R.drawable.ic_play);
         } else {
             service.playSong();
-            btnPlayPause.setImageResource(R.drawable.ic_pause);
+            btnPlay.setImageResource(R.drawable.ic_pause);
         }
     }
 
@@ -172,20 +198,24 @@ public class PlayCenterActivity extends AppCompatActivity implements ServiceConn
         currentSong = (Song) intent.getSerializableExtra(Consts.SONG_EXTRA);
         currentSongPosition = intent.getIntExtra(Consts.SONG_POSITION_EXTRA, 0);
 
-        //setDisplayForCurrentSong();
+        setDisplayForCurrentSong();
     }
 
     private void setDisplayForCurrentSong() {
         txtSongName.setText(currentSong.getName());
-        txtArtistName.setText(artistService.getSongArtist(currentSong.getId()));
-        txtTotalSongTime.setText(timeFormat.format(service.getTotalDuration()));
-        skbSong.setMax(service.getTotalDuration());
+        String artist = artistService.getSongArtist(currentSong.getId());
+        if (artist != null && !artist.isEmpty()) {
+            txtArtistName.setText(artist);
+        }
 
         byte[] imgBytes = currentSong.getImage();
         if (imgBytes != null) {
             Bitmap imgBitmap = BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length);
             imgSongSmall.setImageBitmap(imgBitmap);
             imgSongMain.setImageBitmap(imgBitmap);
+        } else {
+            imgSongMain.setImageResource(R.drawable.album);
+            imgSongSmall.setImageResource(R.drawable.ic_music_note_green);
         }
     }
 

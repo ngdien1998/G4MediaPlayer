@@ -14,7 +14,7 @@
             android:title="Recents" />
         <item
             android:id="@+id/nav_music_library"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_library_music"
             android:title="Musics Library" />
     </group>
 
